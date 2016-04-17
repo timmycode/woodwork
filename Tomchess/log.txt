@@ -1,0 +1,7 @@
+[07:58:10 17 Apr 2016] turns out AB pruning is NOT OPTIONAL.. lol ... see the "bad window" alert. guess abpruning set to off was resulting in a half-done broken algorithm being run
+
+[07:58:43 17 Apr 2016] make him better wrt castling  TODO
+[08:05:44 17 Apr 2016] uncap quiececen TODO 
+[08:08:55 17 Apr 2016]make him  move bishops off back rank
+[08:13:17 17 Apr 2016] allow immediate AB cutoff when evaluating immediate in quiescence search
+[08:16:19 17 Apr 2016] reflection of Y coords for piece square eval.
