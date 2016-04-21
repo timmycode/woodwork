@@ -5,7 +5,6 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import application.Board.Color;
 import application.Board.MoveHistoryNode;
 
 public class VerboseMove extends Move {
@@ -21,7 +20,7 @@ public class VerboseMove extends Move {
 			fromSquare 	= Board.slowMaskToIndex(fromMask);
 			
 			name = "";
-			Board.ColoredPiece fromPiece = context.getPieceAt(o.fromMask);
+			ColoredPiece fromPiece = context.getPieceAtMask(o.fromMask);
 			
 			LinkedList<Move> legalMoves = context.getLegalMoves();
 			
@@ -67,6 +66,10 @@ public class VerboseMove extends Move {
 					name += Board.squareName(toSquare);
 				}
 		}
+			
+			if (this.isEnPassant()) {
+				name += "e.p.";
+			}
 
 
 		context.pushMove(o);

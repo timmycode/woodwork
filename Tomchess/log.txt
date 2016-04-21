@@ -1,7 +1,30 @@
 [07:58:10 17 Apr 2016] turns out AB pruning is NOT OPTIONAL.. lol ... see the "bad window" alert. guess abpruning set to off was resulting in a half-done broken algorithm being run
 
-[07:58:43 17 Apr 2016] make him better wrt castling  TODO
-[08:05:44 17 Apr 2016] uncap quiececen TODO 
-[08:08:55 17 Apr 2016]make him  move bishops off back rank
-[08:13:17 17 Apr 2016] allow immediate AB cutoff when evaluating immediate in quiescence search
-[08:16:19 17 Apr 2016] reflection of Y coords for piece square eval.
+TODO [07:58:43 17 Apr 2016] make him better wrt castling  
+ 
+done [08:08:55 17 Apr 2016]make him  move bishops off back rank
+done [08:13:17 17 Apr 2016] allow immediate AB cutoff when evaluating immediate in quiescence search 
+done [08:16:19 17 Apr 2016] reflection of Y coords for piece square eval.							
+
+done [09:34:29 17 Apr 2016] added reflection of Y coords for pawns etc.
+done [09:34:36 17 Apr 2016] added backrow penatly for bishops
+
+done [15:46:21 17 Apr 2016] put promotions to top... add to quisececnece
+[15:50:05 17 Apr 2016] checks / horizon effect quiesecene
+
+[15:58:39 17 Apr 2016]just give a bonus for king in castle squares...
+[16:13:50 17 Apr 2016] three move repition. put this in. just got gay'd
+
+done [18:33:42 17 Apr 2016] doubled pawns
+
+TODO [22:11:11 17 Apr 2016] TUrn off pruning in end game.
+TODO [22:32:24 17 Apr 2016] rook GTFO corner please.
+TODO [22:36:57 17 Apr 2016] rook mobility wrt edge squares
+
+[23:47:35 17 Apr 2016] ADD EN PASSANT.
+[00:02:03 18 Apr 2016] auto scroll
+
+[01:57:15 18 Apr 2016] let queen come out by adjusting square scores
+
+TODO [00:26:48 21 Apr 2016] let him bring queen out again
+TODO [00:43:20 21 Apr 2016] bishop mobility just like rooks hav 

@@ -1,0 +1,2953 @@
+						(Qui) Trying c5 x d5
+FULLOPEN: Total nonpawn value=4800 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [330,678] <imm=223>
+							. . k r . b . . 
+							. p p b . . . . 
+							p . . . . . . . 
+							P . . q Q . . . 
+							. . . . n . . . 
+							. . . B N . . . 
+							. P P . . . K . 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying e3 x d5
+FULLOPEN: Total nonpawn value=3900 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [330,678] <imm=1107>
+								. . k r . b . . 
+								. p p b . . . . 
+								p . . . . . . . 
+								P . . N Q . . . 
+								. . . . n . . . 
+								. . . B . . . . 
+								. P P . . . K . 
+								R . . . R . . . 
+								(black to move)
+
+
+							(qui) score was 678cutoff=true
+						(qui) score was 678cutoff=true
+						(Qui)  best move is null 
+						(Qui) Trying c5 x c2
+						(Qui) pruned this one. : 330,678 with imm=532 nom = 100
+						(Qui) Trying c5 x a5
+						(Qui) pruned this one. : 330,678 with imm=532 nom = 100
+					(qui) score was 532cutoff=false
+					(Qui) best move is h2 x g2 [score=532]
+					(Qui) Trying e3 x g2
+FULLOPEN: Total nonpawn value=5100 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [532,678] <imm=527>
+						. . k r . b . . 
+						. p p b . . . . 
+						p . . . . . . . 
+						P . q N Q . . . 
+						. . . . n . . . 
+						. . . B . . . . 
+						. P P . . . N K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying c5 x d5
+FULLOPEN: Total nonpawn value=4800 thresholds are 2200,1000
+[o,e] = [100,0]
+FULLOPEN: Total nonpawn value=3900 thresholds are 2200,1000
+[o,e] = [100,0]
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [532,678] <imm=218>
+							. . k r . b . . 
+							. p p b . . . . 
+							p . . . . . . . 
+							P . . q Q . . . 
+							. . . . n . . . 
+							. . . B . . . . 
+							. P P . . . N K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying e5 x d5
+								(Qui) Quiescence at [-7] [532,678] <imm=1103>
+								. . k r . b . . 
+								. p p b . . . . 
+								p . . . . . . . 
+								P . . Q . . . . 
+								. . . . n . . . 
+								. . . B . . . . 
+								. P P . . . N K 
+								R . . . R . . . 
+								(black to move)
+
+
+							(qui) score was 678cutoff=true
+						(qui) score was 678cutoff=true
+						(Qui)  best move is null 
+						(Qui) Trying c5 x c2
+						(Qui) pruned this one. : 532,678 with imm=527 nom = 100
+						(Qui) Trying c5 x a5
+						(Qui) pruned this one. : 532,678 with imm=527 nom = 100
+					(qui) score was 527cutoff=false
+					(Qui) best move is h2 x g2 [score=532]
+				(qui) score was 532cutoff=false
+				(Qui) best move is g7 x g2 [score=532]
+				(Qui) Trying c5 x c2
+					(Qui) Quiescence at [-4] [330,532] <imm=-4>
+					. . k r . b . . 
+					. p p b . . r . 
+					p . . . . . . . 
+					P . . N Q . . . 
+					. . . . n . . . 
+					. . . B N . . . 
+					. P q . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying e3 x c2
+						(Qui) Quiescence at [-5] [330,532] <imm=891>
+						. . k r . b . . 
+						. p p b . . r . 
+						p . . . . . . . 
+						P . . N Q . . . 
+						. . . . n . . . 
+						. . . B . . . . 
+						. P N . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying g7 x g2
+						(Qui) pruned this one. : 330,532 with imm=891 nom = 100
+					(qui) score was 532cutoff=true
+				(qui) score was 532cutoff=true
+				(Qui) best move is g7 x g2 [score=532]
+				(Qui) Trying c5 x a5
+					(Qui) Quiescence at [-4] [330,532] <imm=2>
+					. . k r . b . . 
+					. p p b . . r . 
+					p . . . . . . . 
+					q . . N Q . . . 
+					. . . . n . . . 
+					. . . B N . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying a1 x a5
+						(Qui) Quiescence at [-5] [330,532] <imm=890>
+						. . k r . b . . 
+						. p p b . . r . 
+						p . . . . . . . 
+						R . . N Q . . . 
+						. . . . n . . . 
+						. . . B N . . . 
+						. P P . . . P K 
+						. . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying g7 x g2
+						(Qui) pruned this one. : 330,532 with imm=890 nom = 100
+					(qui) score was 532cutoff=true
+				(qui) score was 532cutoff=true
+				(Qui) best move is g7 x g2 [score=532]
+			(qui) score was 113cutoff=false
+			(Qui) best move is d3 x e4 [score=330]
+			(Qui) Trying f6 x a6
+				(Qui) Quiescence at [-3] [330,678] <imm=125>
+				. . k r . b . . 
+				. p p b . . r . 
+				Q . . . . . . . 
+				P . q N p . . . 
+				. . . . n . . . 
+				. . . B N . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying b7 x a6
+					(Qui) Quiescence at [-4] [330,678] <imm=-774>
+					. . k r . b . . 
+					. . p b . . r . 
+					p . . . . . . . 
+					P . q N p . . . 
+					. . . . n . . . 
+					. . . B N . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying d3 x e4
+					(Qui) pruned this one. : 330,678 with imm=-774 nom = 300
+					(Qui) Trying d5 x c7
+					(Qui) pruned this one. : 330,678 with imm=-774 nom = 100
+					(Qui) Trying d3 x a6
+					(Qui) pruned this one. : 330,678 with imm=-774 nom = 100
+				(qui) score was 330cutoff=true
+			(qui) score was 330cutoff=true
+			(Qui) best move is d3 x e4 [score=330]
+		(qui) score was 330cutoff=false
+		(Qui) best move is g5 x e4 [score=330]
+		(Qui) Trying c5 x c2
+			(Qui) Quiescence at [-2] [238,330] <imm=-5>
+			. . k r . b . . 
+			. p p b . . r . 
+			p . . . . Q . . 
+			P . . N p . n . 
+			. . . . P . . . 
+			. . . B N . . . 
+			. P q . . . P K 
+			R . . . R . . . 
+			(white to move)
+
+
+			(Qui) Trying e3 x c2
+				(Qui) Quiescence at [-3] [238,330] <imm=890>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . Q . . 
+				P . . N p . n . 
+				. . . . P . . . 
+				. . . B . . . . 
+				. P N . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying g5 x e4
+				(Qui) pruned this one. : 238,330 with imm=890 nom = 100
+			(qui) score was 330cutoff=true
+		(qui) score was 330cutoff=true
+		(Qui) best move is g5 x e4 [score=330]
+		(Qui) Trying c5 x a5
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+			(Qui) Quiescence at [-2] [238,330] <imm=1>
+			. . k r . b . . 
+			. p p b . . r . 
+			p . . . . Q . . 
+			q . . N p . n . 
+			. . . . P . . . 
+			. . . B N . . . 
+			. P P . . . P K 
+			R . . . R . . . 
+			(white to move)
+
+
+			(Qui) Trying a1 x a5
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,330] <imm=889>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . Q . . 
+				R . . N p . n . 
+				. . . . P . . . 
+				. . . B N . . . 
+				. P P . . . P K 
+				. . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying g5 x e4
+				(Qui) pruned this one. : 238,330 with imm=889 nom = 100
+			(qui) score was 330cutoff=true
+		(qui) score was 330cutoff=true
+		(Qui) best move is g5 x e4 [score=330]
+	(qui) score was 112cutoff=false
+	(Qui)  best move is null 
+	(Qui) Trying e3 x d5
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+		(Qui) Quiescence at [-1] [238,678] <imm=113>
+		. . k r . b . . 
+		. p p b . . r . 
+		p . . . . Q . . 
+		P . q N p . n . 
+		. . . . P . . . 
+		. . N B . . . . 
+		. P P . . . P K 
+		R . . . R . . . 
+		(black to move)
+
+
+		(Qui) Trying c5 x c3
+FULLOPEN: Total nonpawn value=5300 thresholds are 2200,1000
+[o,e] = [100,0]
+			(Qui) Quiescence at [-2] [238,678] <imm=-209>
+			. . k r . b . . 
+			. p p b . . r . 
+			p . . . . Q . . 
+			P . . N p . n . 
+			. . . . P . . . 
+			. . q B . . . . 
+			. P P . . . P K 
+			R . . . R . . . 
+			(white to move)
+
+
+			(Qui) Trying b2 x c3
+FULLOPEN: Total nonpawn value=4400 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=653>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . Q . . 
+				P . . N p . n . 
+				. . . . P . . . 
+				. . P B . . . . 
+				. . P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying g5 x e4
+				(Qui) pruned this one. : 238,678 with imm=653 nom = 100
+			(qui) score was 653cutoff=false
+			(Qui) best move is b2 x c3 [score=653]
+			(Qui) Trying d5 x c3
+FULLOPEN: Total nonpawn value=4400 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [653,678] <imm=689>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . Q . . 
+				P . . . p . n . 
+				. . . . P . . . 
+				. . N B . . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying g5 x e4
+				(Qui) pruned this one. : 653,678 with imm=689 nom = 100
+			(qui) score was 678cutoff=true
+		(qui) score was 678cutoff=true
+		(Qui)  best move is null 
+		(Qui) Trying c5 x d5
+FULLOPEN: Total nonpawn value=5300 thresholds are 2200,1000
+[o,e] = [100,0]
+			(Qui) Quiescence at [-2] [238,678] <imm=-196>
+			. . k r . b . . 
+			. p p b . . r . 
+			p . . . . Q . . 
+			P . . q p . n . 
+			. . . . P . . . 
+			. . N B . . . . 
+			. P P . . . P K 
+			R . . . R . . . 
+			(white to move)
+
+
+FULLOPEN: Total nonpawn value=4400 thresholds are 2200,1000
+[o,e] = [100,0]
+			(Qui) Trying e4 x d5
+				(Qui) Quiescence at [-3] [238,678] <imm=713>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . Q . . 
+				P . . P p . n . 
+				. . . . . . . . 
+				. . N B . . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+			(qui) score was 678cutoff=true
+		(qui) score was 678cutoff=true
+		(Qui)  best move is null 
+		(Qui) Trying g5 x e4
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+			(Qui) Quiescence at [-2] [238,678] <imm=13>
+			. . k r . b . . 
+			. p p b . . r . 
+			p . . . . Q . . 
+			P . q N p . . . 
+			. . . . n . . . 
+			. . N B . . . . 
+			. P P . . . P K 
+			R . . . R . . . 
+			(white to move)
+
+
+			(Qui) Trying f6 x g7
+FULLOPEN: Total nonpawn value=5100 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=550>
+				. . k r . b . . 
+				. p p b . . Q . 
+				p . . . . . . . 
+				P . q N p . . . 
+				. . . . n . . . 
+				. . N B . . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying f8 x g7
+FULLOPEN: Total nonpawn value=4200 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=-375>
+					. . k r . . . . 
+					. p p b . . b . 
+					p . . . . . . . 
+					P . q N p . . . 
+					. . . . n . . . 
+					. . N B . . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying c3 x e4
+					(Qui) pruned this one. : 238,678 with imm=-375 nom = 300
+					(Qui) Trying d3 x e4
+					(Qui) pruned this one. : 238,678 with imm=-375 nom = 300
+					(Qui) Trying e1 x e4
+					(Qui) pruned this one. : 238,678 with imm=-375 nom = 300
+					(Qui) Trying d5 x c7
+					(Qui) pruned this one. : 238,678 with imm=-375 nom = 100
+					(Qui) Trying d3 x a6
+					(Qui) pruned this one. : 238,678 with imm=-375 nom = 100
+				(qui) score was 238cutoff=true
+			(qui) score was 238cutoff=true
+			(Qui)  best move is null 
+			(Qui) Trying f6 x d8
+FULLOPEN: Total nonpawn value=5100 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=564>
+				. . k Q . b . . 
+				. p p b . . r . 
+				p . . . . . . . 
+				P . q N p . . . 
+				. . . . n . . . 
+				. . N B . . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying c8 x d8
+					(Qui) Quiescence at [-4] [238,678] <imm=-335>
+					. . . k . b . . 
+					. p p b . . r . 
+					p . . . . . . . 
+					P . q N p . . . 
+					. . . . n . . . 
+					. . N B . . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying c3 x e4
+FULLOPEN: Total nonpawn value=4200 thresholds are 2200,1000
+[o,e] = [100,0]
+FULLOPEN: Total nonpawn value=3900 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=-20>
+						. . . k . b . . 
+						. p p b . . r . 
+						p . . . . . . . 
+						P . q N p . . . 
+						. . . . N . . . 
+						. . . B . . . . 
+						. P P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying c5 x d5
+FULLOPEN: Total nonpawn value=3600 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [238,678] <imm=-329>
+							. . . k . b . . 
+							. p p b . . r . 
+							p . . . . . . . 
+							P . . q p . . . 
+							. . . . N . . . 
+							. . . B . . . . 
+							. P P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying d3 x a6
+							(Qui) pruned this one. : 238,678 with imm=-329 nom = 100
+						(qui) score was 238cutoff=true
+					(qui) score was 238cutoff=true
+					(Qui)  best move is null 
+					(Qui) Trying d3 x e4
+FULLOPEN: Total nonpawn value=3900 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=-17>
+						. . . k . b . . 
+						. p p b . . r . 
+						p . . . . . . . 
+						P . q N p . . . 
+						. . . . B . . . 
+						. . N . . . . . 
+						. P P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+FULLOPEN: Total nonpawn value=3600 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Trying c5 x c3
+							(Qui) Quiescence at [-6] [238,678] <imm=-339>
+							. . . k . b . . 
+							. p p b . . r . 
+							p . . . . . . . 
+							P . . N p . . . 
+							. . . . B . . . 
+							. . q . . . . . 
+							. P P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+FULLOPEN: Total nonpawn value=2700 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Trying b2 x c3
+								(Qui) Quiescence at [-7] [238,678] <imm=523>
+								. . . k . b . . 
+								. p p b . . r . 
+								p . . . . . . . 
+								P . . N p . . . 
+								. . . . B . . . 
+								. . P . . . . . 
+								. . P . . . P K 
+								R . . . R . . . 
+								(black to move)
+
+
+								(Qui) Trying g7 x g2
+								(Qui) pruned this one. : 238,678 with imm=523 nom = 100
+							(qui) score was 523cutoff=false
+							(Qui) best move is b2 x c3 [score=523]
+							(Qui) Trying d5 x c3
+FULLOPEN: Total nonpawn value=2700 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [523,678] <imm=559>
+								. . . k . b . . 
+								. p p b . . r . 
+								p . . . . . . . 
+								P . . . p . . . 
+								. . . . B . . . 
+								. . N . . . . . 
+								. P P . . . P K 
+								R . . . R . . . 
+								(black to move)
+
+
+								(Qui) Trying g7 x g2
+								(Qui) pruned this one. : 523,678 with imm=559 nom = 100
+							(qui) score was 559cutoff=false
+							(Qui) best move is d5 x c3 [score=559]
+							(Qui) Trying d5 x c7
+							(Qui) pruned this one. : 559,678 with imm=-339 nom = 100
+						(qui) score was 559cutoff=false
+						(Qui) best move is c5 x c3 [score=559]
+						(Qui) Trying c5 x d5
+FULLOPEN: Total nonpawn value=3600 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [238,559] <imm=-326>
+							. . . k . b . . 
+							. p p b . . r . 
+							p . . . . . . . 
+							P . . q p . . . 
+							. . . . B . . . 
+							. . N . . . . . 
+							. P P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying c3 x d5
+FULLOPEN: Total nonpawn value=2700 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [238,559] <imm=557>
+								. . . k . b . . 
+								. p p b . . r . 
+								p . . . . . . . 
+								P . . N p . . . 
+								. . . . B . . . 
+								. . . . . . . . 
+								. P P . . . P K 
+								R . . . R . . . 
+								(black to move)
+
+
+								(Qui) Trying g7 x g2
+								(Qui) pruned this one. : 238,559 with imm=557 nom = 100
+							(qui) score was 557cutoff=false
+							(Qui) best move is c3 x d5 [score=557]
+							(Qui) Trying e4 x d5
+FULLOPEN: Total nonpawn value=2700 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [557,559] <imm=559>
+								. . . k . b . . 
+								. p p b . . r . 
+								p . . . . . . . 
+								P . . B p . . . 
+								. . . . . . . . 
+								. . N . . . . . 
+								. P P . . . P K 
+								R . . . R . . . 
+								(black to move)
+
+
+								(Qui) Trying g7 x g2
+								(Qui) pruned this one. : 557,559 with imm=559 nom = 100
+							(qui) score was 559cutoff=false
+						(qui) score was 559cutoff=true
+						(Qui) best move is c5 x c3 [score=559]
+						(Qui) Trying g7 x g2
+FULLOPEN: Total nonpawn value=3900 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [238,559] <imm=-127>
+							. . . k . b . . 
+							. p p b . . . . 
+							p . . . . . . . 
+							P . q N p . . . 
+							. . . . B . . . 
+							. . N . . . . . 
+							. P P . . . r K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying h2 x g2
+FULLOPEN: Total nonpawn value=3400 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [238,559] <imm=402>
+								. . . k . b . . 
+								. p p b . . . . 
+								p . . . . . . . 
+								P . q N p . . . 
+								. . . . B . . . 
+								. . N . . . . . 
+								. P P . . . K . 
+								R . . . R . . . 
+								(black to move)
+
+
+								(Qui) Trying c5 x c3
+FULLOPEN: Total nonpawn value=3100 thresholds are 2200,1000
+[o,e] = [100,0]
+									(Qui) Quiescence at [-8] [238,559] <imm=80>
+									. . . k . b . . 
+									. p p b . . . . 
+									p . . . . . . . 
+									P . . N p . . . 
+									. . . . B . . . 
+									. . q . . . . . 
+									. P P . . . K . 
+									R . . . R . . . 
+									(white to move)
+
+
+									hit depth limit returning 80
+								(qui) score was 80cutoff=false
+							(qui) score was 238cutoff=true
+							(Qui)  best move is null 
+							(Qui) Trying e4 x g2
+FULLOPEN: Total nonpawn value=3400 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [238,559] <imm=402>
+								. . . k . b . . 
+								. p p b . . . . 
+								p . . . . . . . 
+								P . q N p . . . 
+								. . . . . . . . 
+								. . N . . . . . 
+								. P P . . . B K 
+								R . . . R . . . 
+								(black to move)
+
+
+								(Qui) Trying c5 x c3
+FULLOPEN: Total nonpawn value=3100 thresholds are 2200,1000
+[o,e] = [100,0]
+									(Qui) Quiescence at [-8] [238,559] <imm=80>
+									. . . k . b . . 
+									. p p b . . . . 
+									p . . . . . . . 
+									P . . N p . . . 
+									. . . . . . . . 
+									. . q . . . . . 
+									. P P . . . B K 
+									R . . . R . . . 
+									(white to move)
+
+
+									hit depth limit returning 80
+								(qui) score was 80cutoff=false
+							(qui) score was 238cutoff=true
+							(Qui)  best move is null 
+						(qui) score was 238cutoff=true
+					(qui) score was 238cutoff=true
+					(Qui)  best move is null 
+					(Qui) Trying e1 x e4
+FULLOPEN: Total nonpawn value=3900 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=-38>
+						. . . k . b . . 
+						. p p b . . r . 
+						p . . . . . . . 
+						P . q N p . . . 
+						. . . . R . . . 
+						. . N B . . . . 
+						. P P . . . P K 
+						R . . . . . . . 
+						(black to move)
+
+
+						(Qui) Trying c5 x c3
+FULLOPEN: Total nonpawn value=3600 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [238,678] <imm=-360>
+							. . . k . b . . 
+							. p p b . . r . 
+							p . . . . . . . 
+							P . . N p . . . 
+							. . . . R . . . 
+							. . q B . . . . 
+							. P P . . . P K 
+							R . . . . . . . 
+							(white to move)
+
+
+							(Qui) Trying b2 x c3
+FULLOPEN: Total nonpawn value=2700 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [238,678] <imm=502>
+								. . . k . b . . 
+								. p p b . . r . 
+								p . . . . . . . 
+								P . . N p . . . 
+								. . . . R . . . 
+								. . P B . . . . 
+								. . P . . . P K 
+								R . . . . . . . 
+								(black to move)
+
+
+								(Qui) Trying g7 x g2
+								(Qui) pruned this one. : 238,678 with imm=502 nom = 100
+							(qui) score was 502cutoff=false
+							(Qui) best move is b2 x c3 [score=502]
+							(Qui) Trying d5 x c3
+FULLOPEN: Total nonpawn value=2700 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [502,678] <imm=538>
+								. . . k . b . . 
+								. p p b . . r . 
+								p . . . . . . . 
+								P . . . p . . . 
+								. . . . R . . . 
+								. . N B . . . . 
+								. P P . . . P K 
+								R . . . . . . . 
+								(black to move)
+
+
+								(Qui) Trying g7 x g2
+								(Qui) pruned this one. : 502,678 with imm=538 nom = 100
+							(qui) score was 538cutoff=false
+							(Qui) best move is d5 x c3 [score=538]
+							(Qui) Trying d5 x c7
+							(Qui) pruned this one. : 538,678 with imm=-360 nom = 100
+							(Qui) Trying d3 x a6
+							(Qui) pruned this one. : 538,678 with imm=-360 nom = 100
+							(Qui) Trying e4 x e5
+							(Qui) pruned this one. : 538,678 with imm=-360 nom = 100
+						(qui) score was 538cutoff=false
+						(Qui) best move is c5 x c3 [score=538]
+						(Qui) Trying c5 x d5
+FULLOPEN: Total nonpawn value=3600 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [238,538] <imm=-347>
+							. . . k . b . . 
+							. p p b . . r . 
+							p . . . . . . . 
+							P . . q p . . . 
+							. . . . R . . . 
+							. . N B . . . . 
+							. P P . . . P K 
+							R . . . . . . . 
+							(white to move)
+
+
+							(Qui) Trying c3 x d5
+FULLOPEN: Total nonpawn value=2700 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [238,538] <imm=536>
+								. . . k . b . . 
+								. p p b . . r . 
+								p . . . . . . . 
+								P . . N p . . . 
+								. . . . R . . . 
+								. . . B . . . . 
+								. P P . . . P K 
+								R . . . . . . . 
+								(black to move)
+
+
+								(Qui) Trying g7 x g2
+								(Qui) pruned this one. : 238,538 with imm=536 nom = 100
+							(qui) score was 536cutoff=false
+							(Qui) best move is c3 x d5 [score=536]
+							(Qui) Trying d3 x a6
+							(Qui) pruned this one. : 536,538 with imm=-347 nom = 100
+							(Qui) Trying e4 x e5
+							(Qui) pruned this one. : 536,538 with imm=-347 nom = 100
+						(qui) score was 536cutoff=false
+						(Qui) best move is c5 x d5 [score=536]
+						(Qui) Trying g7 x g2
+FULLOPEN: Total nonpawn value=3900 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [238,536] <imm=-148>
+							. . . k . b . . 
+							. p p b . . . . 
+							p . . . . . . . 
+							P . q N p . . . 
+							. . . . R . . . 
+							. . N B . . . . 
+							. P P . . . r K 
+							R . . . . . . . 
+							(white to move)
+
+
+							(Qui) Trying h2 x g2
+FULLOPEN: Total nonpawn value=3400 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [238,536] <imm=381>
+								. . . k . b . . 
+								. p p b . . . . 
+								p . . . . . . . 
+								P . q N p . . . 
+								. . . . R . . . 
+								. . N B . . . . 
+								. P P . . . K . 
+								R . . . . . . . 
+								(black to move)
+
+
+								(Qui) Trying c5 x c3
+FULLOPEN: Total nonpawn value=3100 thresholds are 2200,1000
+[o,e] = [100,0]
+									(Qui) Quiescence at [-8] [238,536] <imm=59>
+									. . . k . b . . 
+									. p p b . . . . 
+									p . . . . . . . 
+									P . . N p . . . 
+									. . . . R . . . 
+									. . q B . . . . 
+									. P P . . . K . 
+									R . . . . . . . 
+									(white to move)
+
+
+									hit depth limit returning 59
+								(qui) score was 59cutoff=false
+							(qui) score was 238cutoff=true
+							(Qui)  best move is null 
+						(qui) score was 238cutoff=true
+					(qui) score was 238cutoff=true
+					(Qui)  best move is null 
+					(Qui) Trying d5 x c7
+					(Qui) pruned this one. : 238,678 with imm=-335 nom = 100
+					(Qui) Trying d3 x a6
+					(Qui) pruned this one. : 238,678 with imm=-335 nom = 100
+				(qui) score was 238cutoff=true
+			(qui) score was 238cutoff=true
+			(Qui)  best move is null 
+			(Qui) Trying c3 x e4
+FULLOPEN: Total nonpawn value=5300 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=328>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . Q . . 
+				P . q N p . . . 
+				. . . . N . . . 
+				. . . B . . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying c5 x d5
+FULLOPEN: Total nonpawn value=5000 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=19>
+					. . k r . b . . 
+					. p p b . . r . 
+					p . . . . Q . . 
+					P . . q p . . . 
+					. . . . N . . . 
+					. . . B . . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying f6 x g7
+FULLOPEN: Total nonpawn value=4500 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=556>
+						. . k r . b . . 
+						. p p b . . Q . 
+						p . . . . . . . 
+						P . . q p . . . 
+						. . . . N . . . 
+						. . . B . . . . 
+						. P P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying f8 x g7
+FULLOPEN: Total nonpawn value=3600 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [238,678] <imm=-369>
+							. . k r . . . . 
+							. p p b . . b . 
+							p . . . . . . . 
+							P . . q p . . . 
+							. . . . N . . . 
+							. . . B . . . . 
+							. P P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying d3 x a6
+							(Qui) pruned this one. : 238,678 with imm=-369 nom = 100
+						(qui) score was 238cutoff=true
+					(qui) score was 238cutoff=true
+					(Qui)  best move is null 
+					(Qui) Trying f6 x d8
+FULLOPEN: Total nonpawn value=4500 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=570>
+						. . k Q . b . . 
+						. p p b . . r . 
+						p . . . . . . . 
+						P . . q p . . . 
+						. . . . N . . . 
+						. . . B . . . . 
+						. P P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying c8 x d8
+FULLOPEN: Total nonpawn value=3600 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [238,678] <imm=-329>
+							. . . k . b . . 
+							. p p b . . r . 
+							p . . . . . . . 
+							P . . q p . . . 
+							. . . . N . . . 
+							. . . B . . . . 
+							. P P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying d3 x a6
+							(Qui) pruned this one. : 238,678 with imm=-329 nom = 100
+						(qui) score was 238cutoff=true
+					(qui) score was 238cutoff=true
+					(Qui)  best move is null 
+					(Qui) Trying f6 x f8
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=317>
+						. . k r . Q . . 
+						. p p b . . r . 
+						p . . . . . . . 
+						P . . q p . . . 
+						. . . . N . . . 
+						. . . B . . . . 
+						. P P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying d8 x f8
+FULLOPEN: Total nonpawn value=3800 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [238,678] <imm=-578>
+							. . k . . r . . 
+							. p p b . . r . 
+							p . . . . . . . 
+							P . . q p . . . 
+							. . . . N . . . 
+							. . . B . . . . 
+							. P P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying d3 x a6
+							(Qui) pruned this one. : 238,678 with imm=-578 nom = 100
+						(qui) score was 238cutoff=true
+					(qui) score was 238cutoff=true
+					(Qui)  best move is null 
+					(Qui) Trying d3 x a6
+FULLOPEN: Total nonpawn value=5000 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=122>
+						. . k r . b . . 
+						. p p b . . r . 
+						B . . . . Q . . 
+						P . . q p . . . 
+						. . . . N . . . 
+						. . . . . . . . 
+						. P P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying b7 x a6
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [238,678] <imm=-192>
+							. . k r . b . . 
+							. . p b . . r . 
+							p . . . . Q . . 
+							P . . q p . . . 
+							. . . . N . . . 
+							. . . . . . . . 
+							. P P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying f6 x g7
+FULLOPEN: Total nonpawn value=4200 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [238,678] <imm=345>
+								. . k r . b . . 
+								. . p b . . Q . 
+								p . . . . . . . 
+								P . . q p . . . 
+								. . . . N . . . 
+								. . . . . . . . 
+								. P P . . . P K 
+								R . . . R . . . 
+								(black to move)
+
+
+								(Qui) Trying f8 x g7
+FULLOPEN: Total nonpawn value=3300 thresholds are 2200,1000
+[o,e] = [100,0]
+									(Qui) Quiescence at [-8] [238,678] <imm=-580>
+									. . k r . . . . 
+									. . p b . . b . 
+									p . . . . . . . 
+									P . . q p . . . 
+									. . . . N . . . 
+									. . . . . . . . 
+									. P P . . . P K 
+									R . . . R . . . 
+									(white to move)
+
+
+									hit depth limit returning -580
+								(qui) score was -580cutoff=false
+							(qui) score was 238cutoff=true
+							(Qui)  best move is null 
+							(Qui) Trying f6 x d8
+FULLOPEN: Total nonpawn value=4200 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [238,678] <imm=359>
+								. . k Q . b . . 
+								. . p b . . r . 
+								p . . . . . . . 
+								P . . q p . . . 
+								. . . . N . . . 
+								. . . . . . . . 
+								. P P . . . P K 
+								R . . . R . . . 
+								(black to move)
+
+
+								(Qui) Trying c8 x d8
+FULLOPEN: Total nonpawn value=3300 thresholds are 2200,1000
+[o,e] = [100,0]
+									(Qui) Quiescence at [-8] [238,678] <imm=-540>
+									. . . k . b . . 
+									. . p b . . r . 
+									p . . . . . . . 
+									P . . q p . . . 
+									. . . . N . . . 
+									. . . . . . . . 
+									. P P . . . P K 
+									R . . . R . . . 
+									(white to move)
+
+
+									hit depth limit returning -540
+								(qui) score was -540cutoff=false
+							(qui) score was 238cutoff=true
+							(Qui)  best move is null 
+							(Qui) Trying f6 x f8
+FULLOPEN: Total nonpawn value=4400 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [238,678] <imm=106>
+								. . k r . Q . . 
+								. . p b . . r . 
+								p . . . . . . . 
+								P . . q p . . . 
+								. . . . N . . . 
+								. . . . . . . . 
+								. P P . . . P K 
+								R . . . R . . . 
+								(black to move)
+
+
+								(Qui) Trying d8 x f8
+FULLOPEN: Total nonpawn value=3500 thresholds are 2200,1000
+[o,e] = [100,0]
+									(Qui) Quiescence at [-8] [238,678] <imm=-789>
+									. . k . . r . . 
+									. . p b . . r . 
+									p . . . . . . . 
+									P . . q p . . . 
+									. . . . N . . . 
+									. . . . . . . . 
+									. P P . . . P K 
+									R . . . R . . . 
+									(white to move)
+
+
+									hit depth limit returning -789
+								(qui) score was -789cutoff=false
+							(qui) score was 238cutoff=true
+							(Qui)  best move is null 
+							(Qui) Trying f6 x e5
+							(Qui) pruned this one. : 238,678 with imm=-192 nom = 100
+							(Qui) Trying f6 x a6
+							(Qui) pruned this one. : 238,678 with imm=-192 nom = 100
+						(qui) score was 238cutoff=true
+					(qui) score was 238cutoff=true
+					(Qui)  best move is null 
+					(Qui) Trying f6 x e5
+FULLOPEN: Total nonpawn value=5000 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=120>
+						. . k r . b . . 
+						. p p b . . r . 
+						p . . . . . . . 
+						P . . q Q . . . 
+						. . . . N . . . 
+						. . . B . . . . 
+						. P P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying d5 x e5
+FULLOPEN: Total nonpawn value=4100 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [238,678] <imm=-765>
+							. . k r . b . . 
+							. p p b . . r . 
+							p . . . . . . . 
+							P . . . q . . . 
+							. . . . N . . . 
+							. . . B . . . . 
+							. P P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+						(qui) score was 238cutoff=true
+					(qui) score was 238cutoff=true
+					(Qui)  best move is null 
+					(Qui) Trying f6 x a6
+FULLOPEN: Total nonpawn value=5000 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=132>
+						. . k r . b . . 
+						. p p b . . r . 
+						Q . . . . . . . 
+						P . . q p . . . 
+						. . . . N . . . 
+						. . . B . . . . 
+						. P P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying b7 x a6
+FULLOPEN: Total nonpawn value=4100 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [238,678] <imm=-767>
+							. . k r . b . . 
+							. . p b . . r . 
+							p . . . . . . . 
+							P . . q p . . . 
+							. . . . N . . . 
+							. . . B . . . . 
+							. P P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying d3 x a6
+							(Qui) pruned this one. : 238,678 with imm=-767 nom = 100
+						(qui) score was 238cutoff=true
+					(qui) score was 238cutoff=true
+					(Qui)  best move is null 
+				(qui) score was 238cutoff=true
+			(qui) score was 238cutoff=true
+			(Qui)  best move is null 
+			(Qui) Trying d3 x e4
+FULLOPEN: Total nonpawn value=5300 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=331>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . Q . . 
+				P . q N p . . . 
+				. . . . B . . . 
+				. . N . . . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying c5 x c3
+FULLOPEN: Total nonpawn value=5000 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=9>
+					. . k r . b . . 
+					. p p b . . r . 
+					p . . . . Q . . 
+					P . . N p . . . 
+					. . . . B . . . 
+					. . q . . . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying b2 x c3
+FULLOPEN: Total nonpawn value=4100 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=871>
+						. . k r . b . . 
+						. p p b . . r . 
+						p . . . . Q . . 
+						P . . N p . . . 
+						. . . . B . . . 
+						. . P . . . . . 
+						. . P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying g7 x g2
+						(Qui) pruned this one. : 238,678 with imm=871 nom = 100
+					(qui) score was 678cutoff=true
+				(qui) score was 678cutoff=true
+				(Qui)  best move is null 
+				(Qui) Trying c5 x d5
+FULLOPEN: Total nonpawn value=5000 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=22>
+					. . k r . b . . 
+					. p p b . . r . 
+					p . . . . Q . . 
+					P . . q p . . . 
+					. . . . B . . . 
+					. . N . . . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying c3 x d5
+FULLOPEN: Total nonpawn value=4100 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=905>
+						. . k r . b . . 
+						. p p b . . r . 
+						p . . . . Q . . 
+						P . . N p . . . 
+						. . . . B . . . 
+						. . . . . . . . 
+						. P P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying g7 x g2
+						(Qui) pruned this one. : 238,678 with imm=905 nom = 100
+					(qui) score was 678cutoff=true
+				(qui) score was 678cutoff=true
+				(Qui)  best move is null 
+				(Qui) Trying g7 x g2
+FULLOPEN: Total nonpawn value=5300 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=221>
+					. . k r . b . . 
+					. p p b . . . . 
+					p . . . . Q . . 
+					P . q N p . . . 
+					. . . . B . . . 
+					. . N . . . . . 
+					. P P . . . r K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying h2 x g2
+FULLOPEN: Total nonpawn value=4800 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=750>
+						. . k r . b . . 
+						. p p b . . . . 
+						p . . . . Q . . 
+						P . q N p . . . 
+						. . . . B . . . 
+						. . N . . . . . 
+						. P P . . . K . 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying c5 x c3
+						(Qui) pruned this one. : 238,678 with imm=750 nom = 300
+						(Qui) Trying c5 x d5
+						(Qui) pruned this one. : 238,678 with imm=750 nom = 300
+						(Qui) Trying c5 x a5
+						(Qui) pruned this one. : 238,678 with imm=750 nom = 100
+					(qui) score was 678cutoff=true
+				(qui) score was 678cutoff=true
+				(Qui)  best move is null 
+				(Qui) Trying c5 x a5
+FULLOPEN: Total nonpawn value=5300 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=220>
+					. . k r . b . . 
+					. p p b . . r . 
+					p . . . . Q . . 
+					q . . N p . . . 
+					. . . . B . . . 
+					. . N . . . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying a1 x a5
+FULLOPEN: Total nonpawn value=4400 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=1108>
+						. . k r . b . . 
+						. p p b . . r . 
+						p . . . . Q . . 
+						R . . N p . . . 
+						. . . . B . . . 
+						. . N . . . . . 
+						. P P . . . P K 
+						. . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying g7 x g2
+						(Qui) pruned this one. : 238,678 with imm=1108 nom = 100
+					(qui) score was 678cutoff=true
+				(qui) score was 678cutoff=true
+				(Qui)  best move is null 
+			(qui) score was 331cutoff=false
+			(Qui) best move is d3 x e4 [score=331]
+			(Qui) Trying e1 x e4
+FULLOPEN: Total nonpawn value=5300 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [331,678] <imm=310>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . Q . . 
+				P . q N p . . . 
+				. . . . R . . . 
+				. . N B . . . . 
+				. P P . . . P K 
+				R . . . . . . . 
+				(black to move)
+
+
+				(Qui) Trying c5 x c3
+FULLOPEN: Total nonpawn value=5000 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [331,678] <imm=-12>
+					. . k r . b . . 
+					. p p b . . r . 
+					p . . . . Q . . 
+					P . . N p . . . 
+					. . . . R . . . 
+					. . q B . . . . 
+					. P P . . . P K 
+					R . . . . . . . 
+					(white to move)
+
+
+					(Qui) Trying b2 x c3
+FULLOPEN: Total nonpawn value=4100 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [331,678] <imm=850>
+						. . k r . b . . 
+						. p p b . . r . 
+						p . . . . Q . . 
+						P . . N p . . . 
+						. . . . R . . . 
+						. . P B . . . . 
+						. . P . . . P K 
+						R . . . . . . . 
+						(black to move)
+
+
+						(Qui) Trying g7 x g2
+						(Qui) pruned this one. : 331,678 with imm=850 nom = 100
+					(qui) score was 678cutoff=true
+				(qui) score was 678cutoff=true
+				(Qui)  best move is null 
+				(Qui) Trying c5 x d5
+FULLOPEN: Total nonpawn value=5000 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [331,678] <imm=1>
+					. . k r . b . . 
+					. p p b . . r . 
+					p . . . . Q . . 
+					P . . q p . . . 
+					. . . . R . . . 
+					. . N B . . . . 
+					. P P . . . P K 
+					R . . . . . . . 
+					(white to move)
+
+
+					(Qui) Trying c3 x d5
+FULLOPEN: Total nonpawn value=4100 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [331,678] <imm=884>
+						. . k r . b . . 
+						. p p b . . r . 
+						p . . . . Q . . 
+						P . . N p . . . 
+						. . . . R . . . 
+						. . . B . . . . 
+						. P P . . . P K 
+						R . . . . . . . 
+						(black to move)
+
+
+						(Qui) Trying g7 x g2
+						(Qui) pruned this one. : 331,678 with imm=884 nom = 100
+					(qui) score was 678cutoff=true
+				(qui) score was 678cutoff=true
+				(Qui)  best move is null 
+				(Qui) Trying g7 x g2
+FULLOPEN: Total nonpawn value=5300 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [331,678] <imm=200>
+					. . k r . b . . 
+					. p p b . . . . 
+					p . . . . Q . . 
+					P . q N p . . . 
+					. . . . R . . . 
+					. . N B . . . . 
+					. P P . . . r K 
+					R . . . . . . . 
+					(white to move)
+
+
+					(Qui) Trying h2 x g2
+FULLOPEN: Total nonpawn value=4800 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [331,678] <imm=729>
+						. . k r . b . . 
+						. p p b . . . . 
+						p . . . . Q . . 
+						P . q N p . . . 
+						. . . . R . . . 
+						. . N B . . . . 
+						. P P . . . K . 
+						R . . . . . . . 
+						(black to move)
+
+
+						(Qui) Trying c5 x c3
+						(Qui) pruned this one. : 331,678 with imm=729 nom = 300
+						(Qui) Trying c5 x d5
+						(Qui) pruned this one. : 331,678 with imm=729 nom = 300
+						(Qui) Trying c5 x a5
+						(Qui) pruned this one. : 331,678 with imm=729 nom = 100
+					(qui) score was 678cutoff=true
+				(qui) score was 678cutoff=true
+				(Qui)  best move is null 
+				(Qui) Trying c5 x a5
+FULLOPEN: Total nonpawn value=5300 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [331,678] <imm=199>
+					. . k r . b . . 
+					. p p b . . r . 
+					p . . . . Q . . 
+					q . . N p . . . 
+					. . . . R . . . 
+					. . N B . . . . 
+					. P P . . . P K 
+					R . . . . . . . 
+					(white to move)
+
+
+					(Qui) Trying a1 x a5
+FULLOPEN: Total nonpawn value=4400 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [331,678] <imm=1087>
+						. . k r . b . . 
+						. p p b . . r . 
+						p . . . . Q . . 
+						R . . N p . . . 
+						. . . . R . . . 
+						. . N B . . . . 
+						. P P . . . P K 
+						. . . . . . . . 
+						(black to move)
+
+
+						(Qui) Trying g7 x g2
+						(Qui) pruned this one. : 331,678 with imm=1087 nom = 100
+					(qui) score was 678cutoff=true
+				(qui) score was 678cutoff=true
+				(Qui)  best move is null 
+			(qui) score was 310cutoff=false
+			(Qui) best move is d3 x e4 [score=331]
+			(Qui) Trying f6 x f8
+FULLOPEN: Total nonpawn value=5300 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [331,678] <imm=311>
+				. . k r . Q . . 
+				. p p b . . r . 
+				p . . . . . . . 
+				P . q N p . . . 
+				. . . . n . . . 
+				. . N B . . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying d8 x f8
+FULLOPEN: Total nonpawn value=4400 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [331,678] <imm=-584>
+					. . k . . r . . 
+					. p p b . . r . 
+					p . . . . . . . 
+					P . q N p . . . 
+					. . . . n . . . 
+					. . N B . . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying c3 x e4
+					(Qui) pruned this one. : 331,678 with imm=-584 nom = 300
+					(Qui) Trying d3 x e4
+					(Qui) pruned this one. : 331,678 with imm=-584 nom = 300
+					(Qui) Trying e1 x e4
+					(Qui) pruned this one. : 331,678 with imm=-584 nom = 300
+					(Qui) Trying d5 x c7
+					(Qui) pruned this one. : 331,678 with imm=-584 nom = 100
+					(Qui) Trying d3 x a6
+					(Qui) pruned this one. : 331,678 with imm=-584 nom = 100
+				(qui) score was 331cutoff=true
+			(qui) score was 331cutoff=true
+			(Qui) best move is d3 x e4 [score=331]
+			(Qui) Trying d5 x c7
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [331,678] <imm=119>
+				. . k r . b . . 
+				. p N b . . r . 
+				p . . . . Q . . 
+				P . q . p . . . 
+				. . . . n . . . 
+				. . N B . . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying e4 x f6
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [331,678] <imm=-779>
+					. . k r . b . . 
+					. p N b . . r . 
+					p . . . . n . . 
+					P . q . p . . . 
+					. . . . . . . . 
+					. . N B . . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying c7 x a6
+					(Qui) pruned this one. : 331,678 with imm=-779 nom = 100
+					(Qui) Trying d3 x a6
+					(Qui) pruned this one. : 331,678 with imm=-779 nom = 100
+					(Qui) Trying e1 x e5
+					(Qui) pruned this one. : 331,678 with imm=-779 nom = 100
+				(qui) score was 331cutoff=true
+			(qui) score was 331cutoff=true
+			(Qui) best move is d3 x e4 [score=331]
+			(Qui) Trying d3 x a6
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [331,678] <imm=116>
+				. . k r . b . . 
+				. p p b . . r . 
+				B . . . . Q . . 
+				P . q N p . . . 
+				. . . . n . . . 
+				. . N . . . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying e4 x f6
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [331,678] <imm=-782>
+					. . k r . b . . 
+					. p p b . . r . 
+					B . . . . n . . 
+					P . q N p . . . 
+					. . . . . . . . 
+					. . N . . . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying d5 x f6
+					(Qui) pruned this one. : 331,678 with imm=-782 nom = 300
+					(Qui) Trying d5 x c7
+					(Qui) pruned this one. : 331,678 with imm=-782 nom = 100
+					(Qui) Trying a6 x b7
+					(Qui) pruned this one. : 331,678 with imm=-782 nom = 100
+					(Qui) Trying e1 x e5
+					(Qui) pruned this one. : 331,678 with imm=-782 nom = 100
+				(qui) score was 331cutoff=true
+			(qui) score was 331cutoff=true
+			(Qui) best move is d3 x e4 [score=331]
+			(Qui) Trying f6 x e5
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [331,678] <imm=114>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . . . . 
+				P . q N Q . . . 
+				. . . . n . . . 
+				. . N B . . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying e4 x c3
+FULLOPEN: Total nonpawn value=5300 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [331,678] <imm=-207>
+					. . k r . b . . 
+					. p p b . . r . 
+					p . . . . . . . 
+					P . q N Q . . . 
+					. . . . . . . . 
+					. . n B . . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying e5 x g7
+FULLOPEN: Total nonpawn value=4800 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [331,678] <imm=341>
+						. . k r . b . . 
+						. p p b . . Q . 
+						p . . . . . . . 
+						P . q N . . . . 
+						. . . . . . . . 
+						. . n B . . . . 
+						. P P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying f8 x g7
+FULLOPEN: Total nonpawn value=3900 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [331,678] <imm=-584>
+							. . k r . . . . 
+							. p p b . . b . 
+							p . . . . . . . 
+							P . q N . . . . 
+							. . . . . . . . 
+							. . n B . . . . 
+							. P P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying b2 x c3
+							(Qui) pruned this one. : 331,678 with imm=-584 nom = 300
+							(Qui) Trying d5 x c3
+							(Qui) pruned this one. : 331,678 with imm=-584 nom = 300
+							(Qui) Trying d5 x c7
+							(Qui) pruned this one. : 331,678 with imm=-584 nom = 100
+							(Qui) Trying d3 x a6
+							(Qui) pruned this one. : 331,678 with imm=-584 nom = 100
+						(qui) score was 331cutoff=true
+					(qui) score was 331cutoff=true
+					(Qui)  best move is null 
+					(Qui) Trying b2 x c3
+FULLOPEN: Total nonpawn value=5000 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [331,678] <imm=78>
+						. . k r . b . . 
+						. p p b . . r . 
+						p . . . . . . . 
+						P . q N Q . . . 
+						. . . . . . . . 
+						. . P B . . . . 
+						. . P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying c5 x d5
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [331,678] <imm=-231>
+							. . k r . b . . 
+							. p p b . . r . 
+							p . . . . . . . 
+							P . . q Q . . . 
+							. . . . . . . . 
+							. . P B . . . . 
+							. . P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying e5 x d5
+FULLOPEN: Total nonpawn value=3800 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [331,678] <imm=654>
+								. . k r . b . . 
+								. p p b . . r . 
+								p . . . . . . . 
+								P . . Q . . . . 
+								. . . . . . . . 
+								. . P B . . . . 
+								. . P . . . P K 
+								R . . . R . . . 
+								(black to move)
+
+
+								(Qui) Trying g7 x g2
+								(Qui) pruned this one. : 331,678 with imm=654 nom = 100
+							(qui) score was 654cutoff=false
+							(Qui) best move is e5 x d5 [score=654]
+							(Qui) Trying e5 x g7
+							(Qui) pruned this one. : 654,678 with imm=-231 nom = 500
+							(Qui) Trying d3 x a6
+							(Qui) pruned this one. : 654,678 with imm=-231 nom = 100
+							(Qui) Trying e5 x c7
+							(Qui) pruned this one. : 654,678 with imm=-231 nom = 100
+						(qui) score was 654cutoff=false
+						(Qui) best move is c5 x d5 [score=654]
+						(Qui) Trying g7 x g2
+FULLOPEN: Total nonpawn value=5000 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [331,654] <imm=-32>
+							. . k r . b . . 
+							. p p b . . . . 
+							p . . . . . . . 
+							P . q N Q . . . 
+							. . . . . . . . 
+							. . P B . . . . 
+							. . P . . . r K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying h2 x g2
+FULLOPEN: Total nonpawn value=4500 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [331,654] <imm=497>
+								. . k r . b . . 
+								. p p b . . . . 
+								p . . . . . . . 
+								P . q N Q . . . 
+								. . . . . . . . 
+								. . P B . . . . 
+								. . P . . . K . 
+								R . . . R . . . 
+								(black to move)
+
+
+								(Qui) Trying c5 x d5
+FULLOPEN: Total nonpawn value=4200 thresholds are 2200,1000
+[o,e] = [100,0]
+									(Qui) Quiescence at [-8] [331,654] <imm=188>
+									. . k r . b . . 
+									. p p b . . . . 
+									p . . . . . . . 
+									P . . q Q . . . 
+									. . . . . . . . 
+									. . P B . . . . 
+									. . P . . . K . 
+									R . . . R . . . 
+									(white to move)
+
+
+									hit depth limit returning 188
+								(qui) score was 188cutoff=false
+							(qui) score was 331cutoff=true
+							(Qui)  best move is null 
+						(qui) score was 331cutoff=true
+					(qui) score was 331cutoff=true
+					(Qui)  best move is null 
+					(Qui) Trying d5 x c3
+FULLOPEN: Total nonpawn value=5000 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [331,678] <imm=114>
+						. . k r . b . . 
+						. p p b . . r . 
+						p . . . . . . . 
+						P . q . Q . . . 
+						. . . . . . . . 
+						. . N B . . . . 
+						. P P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying c5 x e5
+FULLOPEN: Total nonpawn value=4100 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [331,678] <imm=-763>
+							. . k r . b . . 
+							. p p b . . r . 
+							p . . . . . . . 
+							P . . . q . . . 
+							. . . . . . . . 
+							. . N B . . . . 
+							. P P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying e1 x e5
+FULLOPEN: Total nonpawn value=3200 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [331,678] <imm=102>
+								. . k r . b . . 
+								. p p b . . r . 
+								p . . . . . . . 
+								P . . . R . . . 
+								. . . . . . . . 
+								. . N B . . . . 
+								. P P . . . P K 
+								R . . . . . . . 
+								(black to move)
+
+
+								(Qui) Trying g7 x g2
+FULLOPEN: Total nonpawn value=3200 thresholds are 2200,1000
+[o,e] = [100,0]
+									(Qui) Quiescence at [-8] [331,678] <imm=-8>
+									. . k r . b . . 
+									. p p b . . . . 
+									p . . . . . . . 
+									P . . . R . . . 
+									. . . . . . . . 
+									. . N B . . . . 
+									. P P . . . r K 
+									R . . . . . . . 
+									(white to move)
+
+
+									hit depth limit returning -8
+								(qui) score was -8cutoff=false
+							(qui) score was 331cutoff=true
+							(Qui)  best move is null 
+						(qui) score was 331cutoff=true
+					(qui) score was 331cutoff=true
+					(Qui)  best move is null 
+					(Qui) Trying e5 x c3
+FULLOPEN: Total nonpawn value=5000 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [331,678] <imm=123>
+						. . k r . b . . 
+						. p p b . . r . 
+						p . . . . . . . 
+						P . q N . . . . 
+						. . . . . . . . 
+						. . Q B . . . . 
+						. P P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying c5 x c3
+FULLOPEN: Total nonpawn value=4100 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [331,678] <imm=-776>
+							. . k r . b . . 
+							. p p b . . r . 
+							p . . . . . . . 
+							P . . N . . . . 
+							. . . . . . . . 
+							. . q B . . . . 
+							. P P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying b2 x c3
+FULLOPEN: Total nonpawn value=3200 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [331,678] <imm=86>
+								. . k r . b . . 
+								. p p b . . r . 
+								p . . . . . . . 
+								P . . N . . . . 
+								. . . . . . . . 
+								. . P B . . . . 
+								. . P . . . P K 
+								R . . . R . . . 
+								(black to move)
+
+
+								(Qui) Trying g7 x g2
+FULLOPEN: Total nonpawn value=3200 thresholds are 2200,1000
+[o,e] = [100,0]
+									(Qui) Quiescence at [-8] [331,678] <imm=-24>
+									. . k r . b . . 
+									. p p b . . . . 
+									p . . . . . . . 
+									P . . N . . . . 
+									. . . . . . . . 
+									. . P B . . . . 
+									. . P . . . r K 
+									R . . . R . . . 
+									(white to move)
+
+
+									hit depth limit returning -24
+								(qui) score was -24cutoff=false
+							(qui) score was 331cutoff=true
+							(Qui)  best move is null 
+							(Qui) Trying d5 x c3
+FULLOPEN: Total nonpawn value=3200 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [331,678] <imm=122>
+								. . k r . b . . 
+								. p p b . . r . 
+								p . . . . . . . 
+								P . . . . . . . 
+								. . . . . . . . 
+								. . N B . . . . 
+								. P P . . . P K 
+								R . . . R . . . 
+								(black to move)
+
+
+FULLOPEN: Total nonpawn value=3200 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Trying g7 x g2
+									(Qui) Quiescence at [-8] [331,678] <imm=12>
+									. . k r . b . . 
+									. p p b . . . . 
+									p . . . . . . . 
+									P . . . . . . . 
+									. . . . . . . . 
+									. . N B . . . . 
+									. P P . . . r K 
+									R . . . R . . . 
+									(white to move)
+
+
+									hit depth limit returning 12
+								(qui) score was 12cutoff=false
+							(qui) score was 331cutoff=true
+							(Qui)  best move is null 
+							(Qui) Trying d5 x c7
+							(Qui) pruned this one. : 331,678 with imm=-776 nom = 100
+							(Qui) Trying d3 x a6
+							(Qui) pruned this one. : 331,678 with imm=-776 nom = 100
+						(qui) score was 331cutoff=true
+					(qui) score was 331cutoff=true
+					(Qui)  best move is null 
+					(Qui) Trying d5 x c7
+					(Qui) pruned this one. : 331,678 with imm=-207 nom = 100
+					(Qui) Trying d3 x a6
+					(Qui) pruned this one. : 331,678 with imm=-207 nom = 100
+					(Qui) Trying e5 x c7
+					(Qui) pruned this one. : 331,678 with imm=-207 nom = 100
+				(qui) score was 331cutoff=true
+			(qui) score was 331cutoff=true
+			(Qui) best move is d3 x e4 [score=331]
+			(Qui) Trying f6 x a6
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [331,678] <imm=126>
+				. . k r . b . . 
+				. p p b . . r . 
+				Q . . . . . . . 
+				P . q N p . . . 
+				. . . . n . . . 
+				. . N B . . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying b7 x a6
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [331,678] <imm=-773>
+					. . k r . b . . 
+					. . p b . . r . 
+					p . . . . . . . 
+					P . q N p . . . 
+					. . . . n . . . 
+					. . N B . . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying c3 x e4
+					(Qui) pruned this one. : 331,678 with imm=-773 nom = 300
+					(Qui) Trying d3 x e4
+					(Qui) pruned this one. : 331,678 with imm=-773 nom = 300
+					(Qui) Trying e1 x e4
+					(Qui) pruned this one. : 331,678 with imm=-773 nom = 300
+					(Qui) Trying d5 x c7
+					(Qui) pruned this one. : 331,678 with imm=-773 nom = 100
+					(Qui) Trying d3 x a6
+					(Qui) pruned this one. : 331,678 with imm=-773 nom = 100
+				(qui) score was 331cutoff=true
+			(qui) score was 331cutoff=true
+			(Qui) best move is d3 x e4 [score=331]
+		(qui) score was 331cutoff=false
+		(Qui) best move is g5 x e4 [score=331]
+		(Qui) Trying c5 x a5
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+			(Qui) Quiescence at [-2] [238,331] <imm=2>
+			. . k r . b . . 
+			. p p b . . r . 
+			p . . . . Q . . 
+			q . . N p . n . 
+			. . . . P . . . 
+			. . N B . . . . 
+			. P P . . . P K 
+			R . . . R . . . 
+			(white to move)
+
+
+			(Qui) Trying a1 x a5
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,331] <imm=890>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . Q . . 
+				R . . N p . n . 
+				. . . . P . . . 
+				. . N B . . . . 
+				. P P . . . P K 
+				. . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying g5 x e4
+				(Qui) pruned this one. : 238,331 with imm=890 nom = 100
+			(qui) score was 331cutoff=true
+		(qui) score was 331cutoff=true
+		(Qui) best move is g5 x e4 [score=331]
+	(qui) score was 113cutoff=false
+	(Qui)  best move is null 
+	(Qui) Trying d3 x a6
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+		(Qui) Quiescence at [-1] [238,678] <imm=121>
+		. . k r . b . . 
+		. p p b . . r . 
+		B . . . . Q . . 
+		P . q p p . n . 
+		. . . . P . . . 
+		. . N . N . . . 
+		. P P . . . P K 
+		R . . . R . . . 
+		(black to move)
+
+
+		(Qui) Trying b7 x a6
+FULLOPEN: Total nonpawn value=5300 thresholds are 2200,1000
+[o,e] = [100,0]
+			(Qui) Quiescence at [-2] [238,678] <imm=-193>
+			. . k r . b . . 
+			. . p b . . r . 
+			p . . . . Q . . 
+			P . q p p . n . 
+			. . . . P . . . 
+			. . N . N . . . 
+			. P P . . . P K 
+			R . . . R . . . 
+			(white to move)
+
+
+			(Qui) Trying f6 x g7
+FULLOPEN: Total nonpawn value=4800 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=344>
+				. . k r . b . . 
+				. . p b . . Q . 
+				p . . . . . . . 
+				P . q p p . n . 
+				. . . . P . . . 
+				. . N . N . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying f8 x g7
+FULLOPEN: Total nonpawn value=3900 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=-581>
+					. . k r . . . . 
+					. . p b . . b . 
+					p . . . . . . . 
+					P . q p p . n . 
+					. . . . P . . . 
+					. . N . N . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying e4 x d5
+					(Qui) pruned this one. : 238,678 with imm=-581 nom = 100
+					(Qui) Trying c3 x d5
+					(Qui) pruned this one. : 238,678 with imm=-581 nom = 100
+					(Qui) Trying e3 x d5
+					(Qui) pruned this one. : 238,678 with imm=-581 nom = 100
+				(qui) score was 238cutoff=true
+			(qui) score was 238cutoff=true
+			(Qui)  best move is null 
+			(Qui) Trying f6 x d8
+FULLOPEN: Total nonpawn value=4800 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=342>
+				. . k Q . b . . 
+				. . p b . . r . 
+				p . . . . . . . 
+				P . q p p . n . 
+				. . . . P . . . 
+				. . N . N . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying c8 x d8
+FULLOPEN: Total nonpawn value=3900 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=-557>
+					. . . k . b . . 
+					. . p b . . r . 
+					p . . . . . . . 
+					P . q p p . n . 
+					. . . . P . . . 
+					. . N . N . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying e4 x d5
+					(Qui) pruned this one. : 238,678 with imm=-557 nom = 100
+					(Qui) Trying c3 x d5
+					(Qui) pruned this one. : 238,678 with imm=-557 nom = 100
+					(Qui) Trying e3 x d5
+					(Qui) pruned this one. : 238,678 with imm=-557 nom = 100
+				(qui) score was 238cutoff=true
+			(qui) score was 238cutoff=true
+			(Qui)  best move is null 
+			(Qui) Trying f6 x g5
+FULLOPEN: Total nonpawn value=5000 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=119>
+				. . k r . b . . 
+				. . p b . . r . 
+				p . . . . . . . 
+				P . q p p . Q . 
+				. . . . P . . . 
+				. . N . N . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying g7 x g5
+FULLOPEN: Total nonpawn value=4100 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=-771>
+					. . k r . b . . 
+					. . p b . . . . 
+					p . . . . . . . 
+					P . q p p . r . 
+					. . . . P . . . 
+					. . N . N . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying e4 x d5
+					(Qui) pruned this one. : 238,678 with imm=-771 nom = 100
+					(Qui) Trying c3 x d5
+					(Qui) pruned this one. : 238,678 with imm=-771 nom = 100
+					(Qui) Trying e3 x d5
+					(Qui) pruned this one. : 238,678 with imm=-771 nom = 100
+				(qui) score was 238cutoff=true
+			(qui) score was 238cutoff=true
+			(Qui)  best move is null 
+			(Qui) Trying f6 x f8
+FULLOPEN: Total nonpawn value=5000 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=105>
+				. . k r . Q . . 
+				. . p b . . r . 
+				p . . . . . . . 
+				P . q p p . n . 
+				. . . . P . . . 
+				. . N . N . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying d8 x f8
+FULLOPEN: Total nonpawn value=4100 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=-806>
+					. . k . . r . . 
+					. . p b . . r . 
+					p . . . . . . . 
+					P . q p p . n . 
+					. . . . P . . . 
+					. . N . N . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying e4 x d5
+					(Qui) pruned this one. : 238,678 with imm=-806 nom = 100
+					(Qui) Trying c3 x d5
+					(Qui) pruned this one. : 238,678 with imm=-806 nom = 100
+					(Qui) Trying e3 x d5
+					(Qui) pruned this one. : 238,678 with imm=-806 nom = 100
+				(qui) score was 238cutoff=true
+			(qui) score was 238cutoff=true
+			(Qui)  best move is null 
+			(Qui) Trying e4 x d5
+			(Qui) pruned this one. : 238,678 with imm=-193 nom = 100
+			(Qui) Trying c3 x d5
+			(Qui) pruned this one. : 238,678 with imm=-193 nom = 100
+			(Qui) Trying e3 x d5
+			(Qui) pruned this one. : 238,678 with imm=-193 nom = 100
+			(Qui) Trying f6 x e5
+			(Qui) pruned this one. : 238,678 with imm=-193 nom = 100
+			(Qui) Trying f6 x a6
+			(Qui) pruned this one. : 238,678 with imm=-193 nom = 100
+		(qui) score was 238cutoff=true
+	(qui) score was 238cutoff=true
+	(Qui)  best move is null 
+	(Qui) Trying f6 x e5
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+		(Qui) Quiescence at [-1] [238,678] <imm=119>
+		. . k r . b . . 
+		. p p b . . r . 
+		p . . . . . . . 
+		P . q p Q . n . 
+		. . . . P . . . 
+		. . N B N . . . 
+		. P P . . . P K 
+		R . . . R . . . 
+		(black to move)
+
+
+		(Qui) Trying c5 x c3
+FULLOPEN: Total nonpawn value=5300 thresholds are 2200,1000
+[o,e] = [100,0]
+			(Qui) Quiescence at [-2] [238,678] <imm=-203>
+			. . k r . b . . 
+			. p p b . . r . 
+			p . . . . . . . 
+			P . . p Q . n . 
+			. . . . P . . . 
+			. . q B N . . . 
+			. P P . . . P K 
+			R . . . R . . . 
+			(white to move)
+
+
+			(Qui) Trying b2 x c3
+FULLOPEN: Total nonpawn value=4400 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=659>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . . . . 
+				P . . p Q . n . 
+				. . . . P . . . 
+				. . P B N . . . 
+				. . P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying d5 x e4
+				(Qui) pruned this one. : 238,678 with imm=659 nom = 100
+				(Qui) Trying g5 x e4
+				(Qui) pruned this one. : 238,678 with imm=659 nom = 100
+			(qui) score was 659cutoff=false
+			(Qui) best move is b2 x c3 [score=659]
+			(Qui) Trying e5 x c3
+FULLOPEN: Total nonpawn value=4400 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [659,678] <imm=704>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . . . . 
+				P . . p . . n . 
+				. . . . P . . . 
+				. . Q B N . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying d5 x e4
+				(Qui) pruned this one. : 659,678 with imm=704 nom = 100
+				(Qui) Trying g5 x e4
+				(Qui) pruned this one. : 659,678 with imm=704 nom = 100
+			(qui) score was 678cutoff=true
+		(qui) score was 678cutoff=true
+		(Qui)  best move is null 
+		(Qui) Trying c5 x e3
+FULLOPEN: Total nonpawn value=5300 thresholds are 2200,1000
+[o,e] = [100,0]
+			(Qui) Quiescence at [-2] [238,678] <imm=-202>
+			. . k r . b . . 
+			. p p b . . r . 
+			p . . . . . . . 
+			P . . p Q . n . 
+			. . . . P . . . 
+			. . N B q . . . 
+			. P P . . . P K 
+			R . . . R . . . 
+			(white to move)
+
+
+			(Qui) Trying e1 x e3
+FULLOPEN: Total nonpawn value=4400 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=687>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . . . . 
+				P . . p Q . n . 
+				. . . . P . . . 
+				. . N B R . . . 
+				. P P . . . P K 
+				R . . . . . . . 
+				(black to move)
+
+
+				(Qui) Trying d5 x e4
+				(Qui) pruned this one. : 238,678 with imm=687 nom = 100
+				(Qui) Trying g5 x e4
+				(Qui) pruned this one. : 238,678 with imm=687 nom = 100
+			(qui) score was 678cutoff=true
+		(qui) score was 678cutoff=true
+		(Qui)  best move is null 
+		(Qui) Trying d5 x e4
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+			(Qui) Quiescence at [-2] [238,678] <imm=-1>
+			. . k r . b . . 
+			. p p b . . r . 
+			p . . . . . . . 
+			P . q . Q . n . 
+			. . . . p . . . 
+			. . N B N . . . 
+			. P P . . . P K 
+			R . . . R . . . 
+			(white to move)
+
+
+			(Qui) Trying e5 x c5
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=900>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . . . . 
+				P . Q . . . n . 
+				. . . . p . . . 
+				. . N B N . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying f8 x c5
+FULLOPEN: Total nonpawn value=3800 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=-21>
+					. . k r . . . . 
+					. p p b . . r . 
+					p . . . . . . . 
+					P . b . . . n . 
+					. . . . p . . . 
+					. . N B N . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying c3 x e4
+FULLOPEN: Total nonpawn value=3800 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=97>
+						. . k r . . . . 
+						. p p b . . r . 
+						p . . . . . . . 
+						P . b . . . n . 
+						. . . . N . . . 
+						. . . B N . . . 
+						. P P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying g5 x e4
+FULLOPEN: Total nonpawn value=3500 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [238,678] <imm=-224>
+							. . k r . . . . 
+							. p p b . . r . 
+							p . . . . . . . 
+							P . b . . . . . 
+							. . . . n . . . 
+							. . . B N . . . 
+							. P P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying d3 x e4
+FULLOPEN: Total nonpawn value=3200 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [238,678] <imm=94>
+								. . k r . . . . 
+								. p p b . . r . 
+								p . . . . . . . 
+								P . b . . . . . 
+								. . . . B . . . 
+								. . . . N . . . 
+								. P P . . . P K 
+								R . . . R . . . 
+								(black to move)
+
+
+								(Qui) Trying c5 x e3
+FULLOPEN: Total nonpawn value=2900 thresholds are 2200,1000
+[o,e] = [100,0]
+									(Qui) Quiescence at [-8] [238,678] <imm=-224>
+									. . k r . . . . 
+									. p p b . . r . 
+									p . . . . . . . 
+									P . . . . . . . 
+									. . . . B . . . 
+									. . . . b . . . 
+									. P P . . . P K 
+									R . . . R . . . 
+									(white to move)
+
+
+									hit depth limit returning -224
+								(qui) score was -224cutoff=false
+							(qui) score was 238cutoff=true
+							(Qui)  best move is null 
+							(Qui) Trying d3 x a6
+							(Qui) pruned this one. : 238,678 with imm=-224 nom = 100
+						(qui) score was 238cutoff=true
+					(qui) score was 238cutoff=true
+					(Qui)  best move is null 
+					(Qui) Trying d3 x e4
+FULLOPEN: Total nonpawn value=3800 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=100>
+						. . k r . . . . 
+						. p p b . . r . 
+						p . . . . . . . 
+						P . b . . . n . 
+						. . . . B . . . 
+						. . N . N . . . 
+						. P P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying g5 x e4
+FULLOPEN: Total nonpawn value=3500 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [238,678] <imm=-226>
+							. . k r . . . . 
+							. p p b . . r . 
+							p . . . . . . . 
+							P . b . . . . . 
+							. . . . n . . . 
+							. . N . N . . . 
+							. P P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying c3 x e4
+FULLOPEN: Total nonpawn value=3200 thresholds are 2200,1000
+[o,e] = [100,0]
+								(Qui) Quiescence at [-7] [238,678] <imm=89>
+								. . k r . . . . 
+								. p p b . . r . 
+								p . . . . . . . 
+								P . b . . . . . 
+								. . . . N . . . 
+								. . . . N . . . 
+								. P P . . . P K 
+								R . . . R . . . 
+								(black to move)
+
+
+								(Qui) Trying c5 x e3
+FULLOPEN: Total nonpawn value=2900 thresholds are 2200,1000
+[o,e] = [100,0]
+									(Qui) Quiescence at [-8] [238,678] <imm=-229>
+									. . k r . . . . 
+									. p p b . . r . 
+									p . . . . . . . 
+									P . . . . . . . 
+									. . . . N . . . 
+									. . . . b . . . 
+									. P P . . . P K 
+									R . . . R . . . 
+									(white to move)
+
+
+									hit depth limit returning -229
+								(qui) score was -229cutoff=false
+							(qui) score was 238cutoff=true
+							(Qui)  best move is null 
+						(qui) score was 238cutoff=true
+					(qui) score was 238cutoff=true
+					(Qui)  best move is null 
+					(Qui) Trying d3 x a6
+FULLOPEN: Total nonpawn value=3800 thresholds are 2200,1000
+[o,e] = [100,0]
+						(Qui) Quiescence at [-5] [238,678] <imm=82>
+						. . k r . . . . 
+						. p p b . . r . 
+						B . . . . . . . 
+						P . b . . . n . 
+						. . . . p . . . 
+						. . N . N . . . 
+						. P P . . . P K 
+						R . . . R . . . 
+						(black to move)
+
+
+						(Qui) Trying b7 x a6
+FULLOPEN: Total nonpawn value=3500 thresholds are 2200,1000
+[o,e] = [100,0]
+							(Qui) Quiescence at [-6] [238,678] <imm=-232>
+							. . k r . . . . 
+							. . p b . . r . 
+							p . . . . . . . 
+							P . b . . . n . 
+							. . . . p . . . 
+							. . N . N . . . 
+							. P P . . . P K 
+							R . . . R . . . 
+							(white to move)
+
+
+							(Qui) Trying c3 x e4
+							(Qui) pruned this one. : 238,678 with imm=-232 nom = 100
+						(qui) score was 238cutoff=true
+					(qui) score was 238cutoff=true
+					(Qui)  best move is null 
+				(qui) score was 238cutoff=true
+			(qui) score was 238cutoff=true
+			(Qui)  best move is null 
+			(Qui) Trying e5 x g7
+FULLOPEN: Total nonpawn value=5100 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=547>
+				. . k r . b . . 
+				. p p b . . Q . 
+				p . . . . . . . 
+				P . q . . . n . 
+				. . . . p . . . 
+				. . N B N . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying f8 x g7
+FULLOPEN: Total nonpawn value=4200 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=-378>
+					. . k r . . . . 
+					. p p b . . b . 
+					p . . . . . . . 
+					P . q . . . n . 
+					. . . . p . . . 
+					. . N B N . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying c3 x e4
+					(Qui) pruned this one. : 238,678 with imm=-378 nom = 100
+					(Qui) Trying d3 x e4
+					(Qui) pruned this one. : 238,678 with imm=-378 nom = 100
+					(Qui) Trying d3 x a6
+					(Qui) pruned this one. : 238,678 with imm=-378 nom = 100
+				(qui) score was 238cutoff=true
+			(qui) score was 238cutoff=true
+			(Qui)  best move is null 
+			(Qui) Trying e5 x g5
+FULLOPEN: Total nonpawn value=5300 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=322>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . . . . 
+				P . q . . . Q . 
+				. . . . p . . . 
+				. . N B N . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying g7 x g5
+FULLOPEN: Total nonpawn value=4400 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=-568>
+					. . k r . b . . 
+					. p p b . . . . 
+					p . . . . . . . 
+					P . q . . . r . 
+					. . . . p . . . 
+					. . N B N . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying c3 x e4
+					(Qui) pruned this one. : 238,678 with imm=-568 nom = 100
+					(Qui) Trying d3 x e4
+					(Qui) pruned this one. : 238,678 with imm=-568 nom = 100
+					(Qui) Trying d3 x a6
+					(Qui) pruned this one. : 238,678 with imm=-568 nom = 100
+				(qui) score was 238cutoff=true
+			(qui) score was 238cutoff=true
+			(Qui)  best move is null 
+			(Qui) Trying c3 x e4
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=117>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . . . . 
+				P . q . Q . n . 
+				. . . . N . . . 
+				. . . B N . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying c5 x e5
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=-760>
+					. . k r . b . . 
+					. p p b . . r . 
+					p . . . . . . . 
+					P . . . q . n . 
+					. . . . N . . . 
+					. . . B N . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+				(qui) score was 238cutoff=true
+			(qui) score was 238cutoff=true
+			(Qui)  best move is null 
+			(Qui) Trying d3 x e4
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=120>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . . . . 
+				P . q . Q . n . 
+				. . . . B . . . 
+				. . N . N . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying c5 x e5
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=-757>
+					. . k r . b . . 
+					. p p b . . r . 
+					p . . . . . . . 
+					P . . . q . n . 
+					. . . . B . . . 
+					. . N . N . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+				(qui) score was 238cutoff=true
+			(qui) score was 238cutoff=true
+			(Qui)  best move is null 
+			(Qui) Trying d3 x a6
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=102>
+				. . k r . b . . 
+				. p p b . . r . 
+				B . . . . . . . 
+				P . q . Q . n . 
+				. . . . p . . . 
+				. . N . N . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying c5 x e5
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=-775>
+					. . k r . b . . 
+					. p p b . . r . 
+					B . . . . . . . 
+					P . . . q . n . 
+					. . . . p . . . 
+					. . N . N . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+				(qui) score was 238cutoff=true
+			(qui) score was 238cutoff=true
+			(Qui)  best move is null 
+			(Qui) Trying e5 x e4
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=119>
+				. . k r . b . . 
+				. p p b . . r . 
+				p . . . . . . . 
+				P . q . . . n . 
+				. . . . Q . . . 
+				. . N B N . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying g5 x e4
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=-770>
+					. . k r . b . . 
+					. p p b . . r . 
+					p . . . . . . . 
+					P . q . . . . . 
+					. . . . n . . . 
+					. . N B N . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying c3 x e4
+					(Qui) pruned this one. : 238,678 with imm=-770 nom = 300
+					(Qui) Trying d3 x e4
+					(Qui) pruned this one. : 238,678 with imm=-770 nom = 300
+					(Qui) Trying d3 x a6
+					(Qui) pruned this one. : 238,678 with imm=-770 nom = 100
+				(qui) score was 238cutoff=true
+			(qui) score was 238cutoff=true
+			(Qui)  best move is null 
+			(Qui) Trying e5 x c7
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+				(Qui) Quiescence at [-3] [238,678] <imm=124>
+				. . k r . b . . 
+				. p Q b . . r . 
+				p . . . . . . . 
+				P . q . . . n . 
+				. . . . p . . . 
+				. . N B N . . . 
+				. P P . . . P K 
+				R . . . R . . . 
+				(black to move)
+
+
+				(Qui) Trying c8 x c7
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+					(Qui) Quiescence at [-4] [238,678] <imm=-752>
+					. . . r . b . . 
+					. p k b . . r . 
+					p . . . . . . . 
+					P . q . . . n . 
+					. . . . p . . . 
+					. . N B N . . . 
+					. P P . . . P K 
+					R . . . R . . . 
+					(white to move)
+
+
+					(Qui) Trying c3 x e4
+					(Qui) pruned this one. : 238,678 with imm=-752 nom = 100
+					(Qui) Trying d3 x e4
+					(Qui) pruned this one. : 238,678 with imm=-752 nom = 100
+					(Qui) Trying d3 x a6
+					(Qui) pruned this one. : 238,678 with imm=-752 nom = 100
+				(qui) score was 238cutoff=true
+			(qui) score was 238cutoff=true
+			(Qui)  best move is null 
+		(qui) score was 238cutoff=true
+	(qui) score was 238cutoff=true
+	(Qui)  best move is null 
+	(Qui) Trying f6 x a6
+FULLOPEN: Total nonpawn value=5600 thresholds are 2200,1000
+[o,e] = [100,0]
+		(Qui) Quiescence at [-1] [238,678] <imm=131>
+		. . k r . b . . 
+		. p p b . . r . 
+		Q . . . . . . . 
+		P . q p p . n . 
+		. . . . P . . . 
+		. . N B N . . . 
+		. P P . . . P K 
+		R . . . R . . . 
+		(black to move)
+
+
+		(Qui) Trying b7 x a6
+FULLOPEN: Total nonpawn value=4700 thresholds are 2200,1000
+[o,e] = [100,0]
+			(Qui) Quiescence at [-2] [238,678] <imm=-768>
+			. . k r . b . . 
+			. . p b . . r . 
+			p . . . . . . . 
+			P . q p p . n . 
+			. . . . P . . . 
+			. . N B N . . . 
+			. P P . . . P K 
+			R . . . R . . . 
+			(white to move)
+
+
+			(Qui) Trying e4 x d5
+			(Qui) pruned this one. : 238,678 with imm=-768 nom = 100
+			(Qui) Trying c3 x d5
+			(Qui) pruned this one. : 238,678 with imm=-768 nom = 100
+			(Qui) Trying e3 x d5
+			(Qui) pruned this one. : 238,678 with imm=-768 nom = 100
+			(Qui) Trying d3 x a6
+			(Qui) pruned this one. : 238,678 with imm=-768 nom = 100
+		(qui) score was 238cutoff=true
+	(qui) score was 238cutoff=true
+	(Qui)  best move is null 
+[f6 x e5, g5 - f3]

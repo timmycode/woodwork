@@ -10,6 +10,36 @@ public class Move {
 	
 	public boolean nullMove;
 	
+	public long enPassantCap;
+	public boolean isEnPassant() {
+		return enPassantCap != 0;
+	}
+	public long captureSquare() {
+		if (isCapture) {
+			if (isEnPassant()) {
+				return enPassantCap;
+			} 
+			else {
+				return toMask;
+			}
+		}
+		return 0;
+	}
+	
+	public long getCaptureMask() {
+		if (isCapture) {
+			if (enPassantCap != 0) {
+				return enPassantCap;
+			}
+			else {
+				return toMask;
+			}
+		}
+		else {
+			return 0;
+		}
+	}
+	
 	public boolean isCastle;
 	public CastleMovePattern cm;
 	
@@ -26,20 +56,24 @@ public class Move {
 		this.isCastle = o.isCastle;
 		this.cm = o.cm;
 		this.promotionPiece = o.promotionPiece;
+		this.enPassantCap = o.enPassantCap;
 	}
 
 	public Move(long _fromMask, long _toMask) {
-		fromMask = _fromMask;
-		toMask = _toMask;
-		
 		nullMove = false;
+		
+		fromMask = _fromMask;
+		toMask = _toMask;		
+		
 		isPromotion = false;
 		isCheck = false;
 		isCapture = false;
 		
+		enPassantCap = 0L;
+	
 		isCastle = false;
 		cm = null;
-	}	
+	}
 	
 	public boolean compare(Move rhs) {
 		if (fromMask == rhs.fromMask) {
@@ -51,13 +85,18 @@ public class Move {
 					return false;
 				}
 			}
-			return true;
+			if (toMask == rhs.toMask) {
+				return true;
+			}
 		}
 		return false;
 	}
 	
 	@Override
 	public String toString() {
+		if (nullMove) {
+			return "NullMove";
+		}
 		String m = " - ";
 		if (isCapture) {
 			m = " x ";

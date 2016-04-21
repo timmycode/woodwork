@@ -1,6 +1,6 @@
 package application;
 	
-
+import java.awt.Toolkit;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -44,7 +44,8 @@ public class Main extends Application {
 	HBox bottomHBox;
 	TextArea subText;
 	VBox controlVBox;	
-	Button fenLoadButton;	
+	Button fenLoadButton;
+	Button writeFenButton;
 	Button playButton;
 	CheckBox checkComputerPlaysWhite, checkComputerPlaysBlack, checkFlipBoard;
 	
@@ -67,6 +68,7 @@ public class Main extends Application {
 	        mp.play();
 		} catch (Exception e) {
 			System.err.println(e.toString());
+			Toolkit.getDefaultToolkit().beep();
 		}
 		
 		 //Media media = new Media("file:///movesound.wav"); //replace /Movies/test.mp3 with your file
@@ -78,15 +80,36 @@ public class Main extends Application {
 		putBoardToButtons();
 		
 		if (this.checkComputerPlaysBlack.isSelected()) {
-			if ((b.getToPlay() == Board.Color.BLACK)) {
+			if ((b.getToPlay() == Color.BLACK)) {
 				this.doTest();				
 			}
 		}
 		if (this.checkComputerPlaysWhite.isSelected()) {
-			if ((b.getToPlay() == Board.Color.WHITE)) {
+			if ((b.getToPlay() == Color.WHITE)) {
 				this.doTest();				
 			}
 		}
+	}
+	
+	void displayEvalDebug() {
+		Board.EvaluationResult base = b.evaluatePosition();
+		int diff[] = new int[64];
+		for (int x = 0; x < 8; x++) {
+			for (int y = 0; y < 8; y++) {
+				long mask = (1L << Board.index(x,y));
+				ColoredPiece cp = b.getPieceAt(x, y);
+				
+				if (cp.p != Piece.KING){ 
+					b.setPieceAt(mask, null, Color.EMPTY);
+					Board.EvaluationResult eval = b.evaluatePosition();				
+					b.setPieceAt(mask, cp.p, cp.c);
+					diff[Board.index(x,y)] = base.score - eval.score;
+				}
+				
+				
+			 }
+		}
+		engineText.setText(Board.renderArray(diff));
 	}
 	
 	void loadPositionFEN(String x) {
@@ -107,22 +130,30 @@ public class Main extends Application {
 		//mate in 5 halfmove
 		//loadPositionFEN("8/6k1/8/R7/1R6/8/8/4K3 w - -");
 		try {
-			
-			
 			b.settings.enableQuiescence = true;
+			b.settings.maxQuiescencePly = 6;
+			b.settings.deltaPruneMargin = 300;
+			
+			String[] inspectingLine = {};
+			//String[] inspectingLine = null;
 			
 			System.out.println("searching on \n" +b.renderState(">>>"));			
 			
-			Board.ScoredMove bm = b.getBestMoveWithIterativeDeepening(500, 50);
-			//Board.ScoredMove bm = b.getBestMoveAlphaBeta(4);
-			
+			b.settings.enableNullMoveAB = true;
+			b.settings.killerMove = true;
+			b.settings.inspectLine = inspectingLine;
+			b.settings.hashing = false;
+					
+		    Board.ScoredMove bm = b.getBestMoveWithIterativeDeepening(800, 50);
+			//Board.ScoredMove bm = b.getBestMoveAlphaBeta(3);
 			
 			String line = "";
 			boolean first = true;		
 			
 			System.out.println(bm.line.toString());
+			
 			for (Move m : bm.line) {
-				if (b.getToPlay() == Board.Color.BLACK && first) {
+				if (b.getToPlay() == Color.BLACK && first) {
 					line += "\t...";
 				} 					
 				first = false;
@@ -130,7 +161,7 @@ public class Main extends Application {
 				VerboseMove vm = new VerboseMove(m, b);
 				b.pushMove(m);
 				line += "\t" + vm.algebraic();
-				if (b.getToPlay() == Board.Color.WHITE) {
+				if (b.getToPlay() == Color.WHITE) {
 					line += ",\n";
 				}
 					
@@ -143,12 +174,15 @@ public class Main extends Application {
 			
 			engineText.setText("[" + b.stats.quiescenceNodes + " Q-nodes]\t[" + b.stats.alphaBetaNodes + " AB-nodes]\n");
 			if (bm.move != null) {
-				engineText.setText("Move = " + bm.move.toString() + "\n" + "score = [" + bm.score + "]\ndepth = " + bm.depth + "\n[" + b.stats.evaluated + " evals]\n[" + b.stats.quiescenceNodes + " Q-nodes]\t[" + b.stats.alphaBetaNodes + " AB-nodes]\n[" + b.stats.hashHits + " hash hits]\t[" + b.stats.hashHints + "] hash hints\ntime = " + ((float)b.stats.elapsedTimeMS)/1000 + "\nline = \n " + line);
-				this.doAMove(bm.move);
+				engineText.setText("Move = " + bm.move.toString() + "\n" + "score = [" + bm.score + "]\ndepth = " + bm.depth + "\n[" + b.stats.evaluated + " evals]\n[" + b.stats.quiescenceNodes + " Q-nodes]\t[" + b.stats.alphaBetaNodes + " AB-nodes]\n[" + b.stats.hashHits + " hash hits]\t[" + b.stats.hashHints + "] hash hints\n[" + b.stats.nullMoveCutoffs + "] nullmove cutoffs\ntime = " + ((float)b.stats.elapsedTimeMS)/1000 + "\nline = \n " + line);
+				if (  (checkComputerPlaysWhite.isSelected() && checkComputerPlaysBlack.isSelected()) == false ) { //doint get stick playing with itself...
+					this.doAMove(bm.move);
+				}
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		}
 	}
 	
@@ -175,6 +209,12 @@ public class Main extends Application {
 			}
 			if (button_id.compareTo("play") == 0) {
 				doTest();
+				return;
+			}
+			if (button_id.compareTo("writefen") == 0) {
+				FenWriter fw = new FenWriter(b);
+				System.err.println("FEN = " + fw.toString());
+				subText.setText(fw.toString());
 				return;
 			}
 			
@@ -264,17 +304,20 @@ public class Main extends Application {
 			this.checkComputerPlaysWhite = new CheckBox("play White");
 			this.checkFlipBoard = new CheckBox("flip board");
 			
-		
+			writeFenButton = new Button("Write");
+			writeFenButton.setId("writefen");
+			writeFenButton.setOnAction(new ButtonEventHandler());
+			
 			fenLoadButton = new Button("Load");
 			fenLoadButton.setId("fenload");
+			fenLoadButton.setOnAction(new ButtonEventHandler());
 			
 			playButton = new Button("play");
 			playButton.setId("play");
-			
-			fenLoadButton.setOnAction(new ButtonEventHandler());
 			playButton.setOnAction(new ButtonEventHandler());
 			
 			controlVBox.getChildren().add(fenLoadButton);
+			controlVBox.getChildren().add(writeFenButton);
 			controlVBox.getChildren().add(playButton);
 			controlVBox.getChildren().add(checkComputerPlaysBlack);
 			controlVBox.getChildren().add(checkComputerPlaysWhite);
@@ -314,6 +357,7 @@ public class Main extends Application {
 			
 			b = new Board();
 			startingBoard = new Board();
+			//b.getBestMoveAlphaBeta(7);
 						
 			putBoardToButtons();
 			
@@ -331,15 +375,19 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			primaryStage.show();		
+			
 					
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	
 	private void putBoardToButtons() {
 		putButtonsinGrid(this.checkFlipBoard.isSelected());
 		String s = "";
+		
+		//displayEvalDebug();
 		
 		for (CastleMovePattern cmp : CastleMovePattern.values()) {
 			if (b.canCastle(cmp)) {
@@ -356,7 +404,7 @@ public class Main extends Application {
 		int k = 0;
 		Move lastMove = null;
 		for (VerboseMove m : moveList) {
-			if (m.mover == Board.Color.WHITE) {
+			if (m.mover == Color.WHITE) {
 				items.add("[" + ++k + "]\t" + m.algebraic());
 			} else {
 				items.add("...\t" + m.algebraic());
@@ -364,6 +412,8 @@ public class Main extends Application {
 			lastMove = m;
 		}
 		
+		Board.EvaluationResult eval = b.evaluatePosition();
+		items.add(eval.outcome.getDescription() + " (" + eval.score + ")"); 
 		
 		myListView.setItems(items);				
 		
@@ -372,7 +422,7 @@ public class Main extends Application {
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
 				int i = Board.index(x,y);
-				Board.ColoredPiece cp = b.getPieceAt(x, y);
+				ColoredPiece cp = b.getPieceAt(x, y);
 				
 				boolean isSelMoveTarget = false;
 				boolean isSomeMoveTarget = false;
@@ -389,14 +439,13 @@ public class Main extends Application {
 				
 				boolean isPiece = false;
 				
-				if (cp.c == Board.Color.WHITE || cp.c == Board.Color.BLACK) {
+				if (cp.c == Color.WHITE || cp.c == Color.BLACK) {
 					isPiece = true;					
 				} 
 				int fontSize = 20;
 				if (isPiece) {
 					fontSize = 34;
-				}
-				
+				}				
 				
 				String squareColor = (Board.isDarkSquare(x,y) ?  "#b58863" : "#f0d9b5"); 
 				String squareColorHi = (Board.isDarkSquare(x,y) ? "#dac34a" : "#f7ec74");
@@ -406,23 +455,25 @@ public class Main extends Application {
 				if (isPiece == false) {					
 					muhButtons[i].setText(Board.squareName(i));
 				} 
-				else if (cp.c == Board.Color.WHITE) {
+				else if (cp.c == Color.WHITE) {
 					muhButtons[i].setText(cp.p.unicodeWhite);
 				} 
-				else if (cp.c == Board.Color.BLACK) {
+				else if (cp.c == Color.BLACK) {
 					muhButtons[i].setText(cp.p.unicodeBlack);
 				}
 				
-				String bgColor = squareColor;			
+				String bgColor = squareColor;
+				
+				
 				
 				/*if (isSomeMoveTarget) {
 					bgColor = "#aa5555";
 				}*/
 				
-				if (cp.c == Board.Color.WHITE) {					
+				if (cp.c == Color.WHITE) {					
 					bgColor = "#ffffff";	
 				} 
-				else if (cp.c == Board.Color.BLACK) {
+				else if (cp.c == Color.BLACK) {
 					bgColor="#888888";
 				}
  

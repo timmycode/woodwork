@@ -9,30 +9,32 @@ import java.util.Random;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import application.Board.Color;
 import application.Board.ScoredMove;
 import application.Board.SearchStatistics;
 
-public class Board {
+final public class Board {
 	public static boolean isDarkSquare(int x , int y) {
 		return ( (((x+y) % 2) == 0) ? true : false); 
 	}
-	private class GameState {
+	final private class GameState {
 		public GameState(GameState r) {
 			super();
 			this.white = new PieceBoards(r.white);
 			this.black = new PieceBoards(r.black);
+			this.zobrist = r.zobrist; 
 			this.toPlay = r.toPlay;
+			this.enPassantTarget = r.enPassantTarget;
 		}
 		
 		public GameState() {
 			this.white = new PieceBoards();
 			this.black = new PieceBoards();
+			this.zobrist = 0;
 			this.toPlay = Color.WHITE;
+			this.enPassantTarget = 0;
 		}
-
 		
-		private class PieceBoards {
+		final private class PieceBoards {
 			public PieceBoards(PieceBoards r) {
 				super();
 				this.pawns = r.pawns;
@@ -57,8 +59,8 @@ public class Board {
 				this.all = 0;
 				this.kcastle = false; 
 				this.qcastle = false;
-			}
-
+			}			
+			
 			private long pawns, knights, bishops, rooks, queens, kings;
 			private long all;
 			private boolean kcastle,qcastle;
@@ -83,8 +85,10 @@ public class Board {
 			}
 		}
 		
+		private long zobrist;
 		PieceBoards white, black;
 		Color toPlay;		
+		private long enPassantTarget; //mask of squares which are valid move-targets for ep captures i.e. the square a pawn doublepushed through (0 if none)
 		
 		PieceBoards getBoardsForColor(Color c) {
 			assert (c != Color.EMPTY);
@@ -124,9 +128,33 @@ public class Board {
 				t.all		|= ((t.all & from) != 0) ? to : 0L;
 			}  
 		}
+
+		public void updateZobrist() {
+			// TODO Auto-generated method stub
+			this.zobrist = h.getKey();			
+		}
+		public long getZobrist() {
+			return this.zobrist;
+		}
 	};
 	
 	GameState b;
+	
+	//A standard test that returns number of moves in a position up to a given depth
+	public long perft(int depth) {
+		LinkedList<Move> legalMoves = this.getLegalMoves();
+		if (depth == 1) {
+			return legalMoves.size();
+		}
+		long count = 0L;
+		
+		for (Move m : legalMoves) {
+			pushMove(m);
+			count += perft(depth-1);
+			popMove();			
+		}
+		return count;
+	}
 	
 	public String renderState(String indentString) {
 		String r = "";
@@ -167,6 +195,7 @@ public class Board {
 	
 	private long[] blackPawnSinglePushes;
 	private long[] blackPawnDoublePushes;
+	private long allDoublePushSquares; //used for e.p. detection
 	
 	private long[] whitePawnCaps;
 	private long[] blackPawnCaps;
@@ -176,15 +205,16 @@ public class Board {
 	private long blackPromotionSquares;
 		
 	private long[][] rayAttacks; // [i][j] = bit mask of ray from square j in direction i
+	private long fileFullMask[];
 	
 	//scoring squares
 	private int pieceSquareMobility[][];
 	private int squareScore[];
-	private int pieceSquareScore[][];
+	private int pieceSquareScoreOpening[][];
+	private int pieceSquareScoreEndgame[][];
 	
-	private int whitePawnSquareScore[];
-	private int blackPawnSquareScore[];
-	
+	private int rookFileScore[];
+		
 	public static final class MaskIterator implements Iterator<Long> {
 		private long mask;
 		public MaskIterator(long _mask) {
@@ -212,11 +242,47 @@ public class Board {
 	public static int index(int x, int y) {
 		return y*8+x;
 	}
+
+	public static int[] deIndex(int i) {
+		int r[] = new int[2];
+		r[0] = i%8;
+		r[1] = i/8;
+		return r;
+	}
+	
+	public static int flipIndex(int i) {
+		int[] r = deIndex(i);
+		return index(r[0], 7-r[1]);
+	}
 	
 	public static String squareName(int index) {
 		int y = index/8;
 		int x = index%8;
 		return "" + "abcdefgh".charAt(x) + (y+1);
+	}
+	
+	public static int squareNameToIndex(String s) throws Exception {
+		final String files ="abcdefgh";
+		int x=0;
+		for (int i = 0; i < 8; i++) {
+			if (files.charAt(i) == s.charAt(0)) {
+				x = i;
+			}
+		}
+		int y =  Integer.parseInt( "" + s.charAt(1))-1;
+		if ( Board.isWithinBoard(x,y) ) {
+			int ind = index(x,y);
+			System.err.println( squareName(ind) + " / " + s);
+			if ( s.compareTo( squareName(ind) ) == 0) {
+				return ind;
+			} else {
+				throw new Exception("Bad square name");
+			}
+		}
+		else {
+			throw new Exception("Bad square name");
+		}
+		
 	}
 	
 	public static int slowMaskToIndex(long m) {
@@ -226,22 +292,8 @@ public class Board {
 			}
 		}	
 		return -1;
-	}
-	
-	
-	public enum Color {
-		WHITE, BLACK, EMPTY;
-		public Color Enemy() {
-			if (this == Color.WHITE) {
-				return Color.BLACK;
-			} else if (this == Color.BLACK) {
-				return Color.WHITE;
-			} else {
-				return null;
-			}
-		}
-	}
-	
+	}	
+
 	private enum RayDirection {
 		SW 	(0,	-1, -1),
 		S 	(1,	0, 	-1),
@@ -253,6 +305,9 @@ public class Board {
 		NE 	(7,	1,	1);
 		
 		public int index, dx,dy,bitstep;
+		public boolean isDiagonal() {
+			return ((2+dx+dy)%2)== 0;
+		}
 		private RayDirection(int _index, int _dx, int _dy) {
 			index = _index;
 			dx = _dx;
@@ -270,17 +325,14 @@ public class Board {
 		return t;	
 	}
 	
-	public class ColoredPiece {
-		Piece p;
-		Color c;
-	}	
-	
 	public ColoredPiece getPieceAt(int x, int y) {
 		long mask = 1L << index(x,y);
-		return getPieceAt(mask);
+		return getPieceAtMask (mask);
 	}
-		
-	public ColoredPiece getPieceAt(long mask) {
+	public ColoredPiece getPieceAtIndex(int i) {
+		return getPieceAtMask (1L << i);
+	}
+	public ColoredPiece getPieceAtMask(long mask) {
 		ColoredPiece r = new ColoredPiece();
 		GameState.PieceBoards t = null;
 		if ( (b.white.all & mask) != 0 ) {
@@ -304,7 +356,11 @@ public class Board {
 		return r;
 	}
 	
-	public boolean isWithinBoard(int x, int y) {
+	public long getEnpassantMask() {
+		return b.enPassantTarget;
+	}
+	
+	public static boolean isWithinBoard(int x, int y) {
 		return (x >= 0 && x < 8 && y >= 0 && y < 8);
 	}
 	
@@ -326,7 +382,7 @@ public class Board {
 		return null;
 	}
 	
-	class MoveHistoryNode {
+	final class MoveHistoryNode {
 		Move m;
 		GameState stateBefore;
 	}
@@ -353,58 +409,131 @@ public class Board {
 		MoveHistoryNode mh = new MoveHistoryNode();
 		mh.stateBefore = new GameState(b);
 		mh.m = m;
-		moveHistoryList.addFirst(mh);		
-						
+		moveHistoryList.addFirst(mh);
 		
-		if (m.isCastle == true) {
-			//For castle moves, we know the target squares are empty anyway. no need to clear them
+		// en passant can only be done immediately after the double move. so we set to 0 here to disable it 
+		this.b.enPassantTarget = 0;
+		
+		//This code does : "if it was a double pawn push then set the en passant target"
+		if ( ((b.white.pawns | b.black.pawns) & m.fromMask ) != 0) {
+			int fromIndex = maskToIndex(m.fromMask);
+
+			//is it a double push away relative to the FROM-SQUARE?
+			if ( (m.toMask & (whitePawnDoublePushes[fromIndex])) != 0 )
+			{ 
+				//if so set the en passant target to the single push from the FROM-SQUARE
+				b.enPassantTarget = whitePawnSinglePushes[fromIndex];
+			}
 			
+			//likewise for black
+			if ( (m.toMask & (blackPawnDoublePushes[fromIndex])) != 0 )
+			{ 
+				b.enPassantTarget = blackPawnSinglePushes[fromIndex];
+			}			
+		}		
+
+		if (m.isEnPassant()) {
+			//clear target square on all boards
+			//b.doAndWithAllBoards(~m.toMask);
+			
+			//copy pawn to new square
+			b.copyPieceAllBoards(m.fromMask, m.toMask);
+			b.zobrist ^= h.zobristDeltaForPieceAt( m.toMask );
+			
+			//clear from old square
+			b.zobrist ^= h.zobristDeltaForPieceAt( m.fromMask );
+			b.doAndWithAllBoards(~m.fromMask);
+			
+			//remvoe the pawn that was taken en passant
+			b.zobrist ^= h.zobristDeltaForPieceAt( m.enPassantCap );
+			b.doAndWithAllBoards(~m.enPassantCap);
+		}
+		else if (m.isCastle == true) {
+			//For castle moves, we know the target squares are empty anyway. no need to clear them
 			//copy king to new square
 			b.copyPieceAllBoards(m.cm.KingFrom, m.cm.KingTo);
+			b.zobrist ^= h.zobristDeltaForPieceAt( m.cm.KingTo );
+			
 			//clear old king square
+			b.zobrist ^= h.zobristDeltaForPieceAt( m.cm.KingFrom );
 			b.doAndWithAllBoards(~m.cm.KingFrom);
 			
 			//copy rook to new square
 			b.copyPieceAllBoards(m.cm.RookFrom, m.cm.RookTo);
+			b.zobrist ^= h.zobristDeltaForPieceAt( m.cm.RookTo );
+			
 			//clear old rook square
+			b.zobrist ^= h.zobristDeltaForPieceAt( m.cm.RookFrom );
 			b.doAndWithAllBoards(~(m.cm.RookFrom)); 			
+			
 		}
 		else if (m.isPromotion == true) {
 			//clear target square
-			b.doAndWithAllBoards(~m.toMask);						
+			b.zobrist ^= h.zobristDeltaForPieceAt( m.toMask );
+			b.doAndWithAllBoards(~m.toMask);				
+			
 			//create new piece at target square
 			setPieceAt(m.toMask, m.promotionPiece, b.toPlay);
+			b.zobrist ^= h.zobristDeltaForPieceAt( m.toMask );
+			
+			renderState("");
 			//clear from square 
+			b.zobrist ^= h.zobristDeltaForPieceAt( m.fromMask );
 			b.doAndWithAllBoards(~m.fromMask);
 		} else {
+			
 			//clear target square
-			b.doAndWithAllBoards(~m.toMask);						
+			b.zobrist ^= h.zobristDeltaForPieceAt( m.toMask );
+			b.doAndWithAllBoards(~m.toMask);
+						
 			//copy from old square
 			b.copyPieceAllBoards(m.fromMask, m.toMask);
-			//clear from square 
+			b.zobrist ^= h.zobristDeltaForPieceAt( m.toMask );
+			
+			//clear from square
+			b.zobrist ^= h.zobristDeltaForPieceAt( m.fromMask );
 			b.doAndWithAllBoards(~m.fromMask);			
+			
 		}
-		
 		//Check castling rights are intact		
 		
 		if ( ((CastleMovePattern.WHITE_KING_SIDE.KingFrom & b.white.kings) == 0) || ((CastleMovePattern.WHITE_KING_SIDE.RookFrom & b.white.rooks) == 0) ) {
-			b.white.kcastle = false;
+			if (b.white.kcastle) {
+				b.white.kcastle = false;
+				b.zobrist ^= h.zobristWhiteKCastle;
+			}
 		}		
 		if ( ((CastleMovePattern.WHITE_QUEEN_SIDE.KingFrom & b.white.kings) == 0) || ((CastleMovePattern.WHITE_QUEEN_SIDE.RookFrom & b.white.rooks) == 0) ) {
-			b.white.qcastle = false;
+			if (b.white.qcastle) {
+				b.white.qcastle = false;
+				b.zobrist ^= h.zobristWhiteQCastle;
+			}
 		}		
 		if ( ((CastleMovePattern.BLACK_KING_SIDE.KingFrom & b.black.kings) == 0) || ((CastleMovePattern.BLACK_KING_SIDE.RookFrom & b.black.rooks) == 0) ) {
-			b.black.kcastle = false;
+			if (b.black.kcastle) {
+				b.black.kcastle = false;
+				b.zobrist ^= h.zobristBlackKCastle;
+			}
 		}		
 		if ( ((CastleMovePattern.BLACK_QUEEN_SIDE.KingFrom & b.black.kings) == 0) || ((CastleMovePattern.BLACK_QUEEN_SIDE.RookFrom & b.black.rooks) == 0) ) {
-			b.black.qcastle = false;
+			if (b.black.qcastle) {
+				b.black.qcastle = false;
+				b.zobrist ^= h.zobristBlackQCastle;
+			}
 		}		
 		
 		//System.err.println("After");
 		//System.err.println(renderBitBoard(b.white.queens));
 		
+		//test sanity
+		if ((b.white.knights & (b.white.rooks | b.white.queens | b.white.bishops | b.white.pawns | b.white.kings)) != 0) {
+			System.err.println("SANITY FAILED");
+		}
 		//next player's move
 		b.toPlay = b.toPlay.Enemy();
+		
+		b.zobrist ^= h.zobristWhiteToMove;
+		b.zobrist ^= h.zobristBlackToMove;
 	}
 	
 	MoveHistoryNode popMove() {
@@ -413,15 +542,74 @@ public class Board {
 		return mh;
 	}
 	
-	private void attemptAddMoveToList(LinkedList<Move> theList, Move theMove) {
-		if (theMove != null) {
-			//must be sure it wouldnt put us in check
+	void dumpTest() { 
+		System.out.println(renderBitBoard(b.black.pawns));
+		System.out.println(renderBitBoard(b.black.knights));
+		System.out.println(renderBitBoard(b.black.bishops));
+		System.out.println(renderBitBoard(b.black.rooks));
+		System.out.println(renderBitBoard(b.black.queens));
+		System.out.println(renderBitBoard(b.black.kings));
+		
+		System.out.println(renderBitBoard(b.white.pawns));
+		System.out.println(renderBitBoard(b.white.knights));
+		System.out.println(renderBitBoard(b.white.bishops));
+		System.out.println(renderBitBoard(b.white.rooks));
+		System.out.println(renderBitBoard(b.white.queens));
+		System.out.println(renderBitBoard(b.white.kings));
+		
+	}
+
+	
+	private void addMoveToListIfNotIntoCheck(LinkedList<Move> theList, Move theMove, long pinnedPieces, boolean inCheckNow) {
+		if (theMove == null) {
+			return;
+		}
+		
+		boolean safe = false;
+		
+		if ((inCheckNow == false) && theMove.isEnPassant() == false && ((theMove.fromMask & (b.black.kings|b.white.kings)) == 0)) {
+			//a quick test for moves which could never put us in check
+			//is this piece pinned to our king?
+			if ( (theMove.fromMask & pinnedPieces) == 0 ) {
+				safe = true;
+			}
+			/*
+			long playerKing = b.getBoardsForColor(b.toPlay).kings;
+			int playerKingSquare = maskToIndex(playerKing);
+			long playerKingLines = this.getDiagonalAttacks(playerKingSquare,0L) | this.getOrthogonalAttacks(playerKingSquare,0L);
+			if ((theMove.fromMask & playerKingLines) == 0) {
+				safe = true;
+			} else { //we are in line with the king. what about enemy sliding pieces?
+				if ( (playerKingLines & (b.getBoardsForColor(b.toPlay.Enemy()).bishops | b.getBoardsForColor(b.toPlay.Enemy()).rooks | b.getBoardsForColor(b.toPlay.Enemy()).queens)) == 0) {
+					//no enemy sliding pieces in line with the king . so he is safe
+					safe = true;
+				}
+			}*/
+		}
 			
+		if (safe == false) { //test manually
 			pushMove(theMove);
 			if ( isCheck( b.toPlay.Enemy() ) == false ) {
-				theList.add(theMove);
+				safe = true;
 			}
-			popMove();	
+			popMove();
+		}
+		
+		if (safe) {
+			
+			/*boolean manual = false;
+			pushMove(theMove);
+			if ( isCheck( b.toPlay.Enemy() ) == false ) {
+				manual = true;
+			}
+			popMove();
+			
+			if (manual != safe) {
+				System.err.println("Didnt work out here! For (" + theMove.toString() + ") on");
+				System.err.println(this.renderState(""));
+			}*/
+			
+			theList.add(theMove);
 		}
 	}
 	
@@ -484,7 +672,8 @@ public class Board {
 			bitmaskSquareLookupTable[bitmaskSquareLookupHash(bit)] = i;
 		}	
 		
-		pieceSquareScore = new int[6][64];
+		pieceSquareScoreOpening = new int[6][64];
+		pieceSquareScoreEndgame = new int[6][64];
 		squareScore = new int[64];
 		//square scores
 		for (int x = 0; x < 8; x++) {
@@ -499,7 +688,7 @@ public class Board {
 		//System.out.println("Square scores:\n");
 		//System.out.println(renderArray(squareScore));		
 		
-		//pre-computed knight moves
+		//precomputed knight moves
 		knightAttacks = new long[64];
 		int knightMoves[][] = { {2,1}, {2,-1}, {-2,1}, {-2,-1}, {1,2}, {1,-2}, {-1,2}, {-1,-2} };
 		
@@ -514,7 +703,14 @@ public class Board {
 						attackSq += squareScore[index(tx,ty)];
 					}
 				}
-				pieceSquareScore[Piece.KNIGHT.index][index(x,y)] = attackSq/3;	//sum of centrality-value of attacked squares
+				
+				int penalty = 0;
+				if (y == 0) { //backrank penalty to encourage development
+					penalty = 13;
+				}
+				
+				pieceSquareScoreOpening[Piece.KNIGHT.index][index(x,y)] = attackSq/4 - penalty;	//sum of centrality-value of attacked squares
+				pieceSquareScoreEndgame[Piece.KNIGHT.index][index(x,y)] = attackSq/4;
 			}		
 		}
 				
@@ -529,7 +725,19 @@ public class Board {
 						kingAttacks[index(x,y)] |= (1L << index(tx,ty));
 					}
 				}
-			pieceSquareScore[Piece.KING.index][index(x,y)] = -squareScore[index(x,y)]*3;	//far away from centre as possible
+				int tweak = 0;
+				if (y == 0) { //backrank bonus
+					tweak += 20;
+				}
+				pieceSquareScoreOpening[Piece.KING.index][index(x,y)] = -squareScore[index(x,y)]*2 + tweak;	//far away from centre as possible
+				
+				//large penalty for king on the edge in endgame. this also helps to find distant but ez checkmates (eg K+R vs K).
+				int edgePenalty = 0;
+				if (x == 0 || y == 0 ||x == 7 || y == 7)
+				{
+					edgePenalty = 50;
+				}
+				pieceSquareScoreEndgame[Piece.KING.index][index(x,y)] = squareScore[index(x,y)]*3 - 30 - edgePenalty; //get to the centre !
 			}
 		}
 			
@@ -539,6 +747,8 @@ public class Board {
 		
 		blackPawnSinglePushes = new long[64];
 		blackPawnDoublePushes = new long[64];
+		
+		allDoublePushSquares = 0;
 		
 		whitePawnCaps 	= new long[64];		
 		blackPawnCaps   = new long[64];
@@ -629,7 +839,14 @@ public class Board {
 					long thisTarget = I.next();
 					total += squareScore[maskToIndex(thisTarget)];
 				}
-				pieceSquareScore[Piece.BISHOP.index][index(x,y)] = total / 4; 
+
+				int penalty = 0;
+				if (y == 0) { //backrank penalty to encourage development
+					penalty = 28;
+				}
+				
+				pieceSquareScoreOpening[Piece.BISHOP.index][index(x,y)] = (total / 4) - penalty;
+				pieceSquareScoreEndgame[Piece.BISHOP.index][index(x,y)] = (total / 8); //still pretty useless to be on back rank in end game tbh
 			}
 		}
 		
@@ -643,9 +860,23 @@ public class Board {
 					long thisTarget = I.next();
 					total += squareScore[maskToIndex(thisTarget)];
 				}
-				pieceSquareScore[Piece.ROOK.index][index(x,y)] = (total / 4 - squareScore[index(x,y)]); 
+				
+				pieceSquareScoreOpening[Piece.ROOK.index][index(x,y)] = ((y==0)? 8 : -8); //stay on back rank please!
+				pieceSquareScoreEndgame[Piece.ROOK.index][index(x,y)] = 0; // relax that
 			}
 		}
+		
+		final int _rookFileScore[] = {0, 1, 5, 10, 10, 5, 1, 0}; 
+		rookFileScore =_rookFileScore;
+		
+		fileFullMask = new long[8];
+		for (int x = 0; x < 8; x++) {
+			long fileMask = 0L;
+			for (int y = 0; y<8;y++) {
+				fileMask = fileMask | (1L << index(x, y)); 
+			}
+			fileFullMask[x] = fileMask;
+		}		
 		
 		//queen square scores
 		for (int x = 0; x < 8; x++) {
@@ -657,32 +888,44 @@ public class Board {
 					long thisTarget = I.next();
 					total += squareScore[maskToIndex(thisTarget)];
 				}
-				pieceSquareScore[Piece.QUEEN.index][index(x,y)] = (total / 4 - squareScore[index(x,y)]*2) / 2;
+				int backrankPenalty = 0;
+				if (y==0 || y == 7)
+					backrankPenalty = 10;
+				pieceSquareScoreOpening[Piece.QUEEN.index][index(x,y)] =  - squareScore[index(x,y)] / 2 - backrankPenalty;
+				pieceSquareScoreEndgame[Piece.QUEEN.index][index(x,y)] = ((total / 5) + squareScore[index(x,y)]*2) / 2;  //in end game not scared of being attacked. get central !
 			}
 		}		
 		
-		whitePawnSquareScore = new int[64];
-		blackPawnSquareScore = new int[64];
-
 		//pawn square scores
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
-				int rankScores[] = {0,10,10,10,20,40,200,1000};
-				whitePawnSquareScore[index(x,y)] = rankScores[y];
-				blackPawnSquareScore[index(x,y)] = rankScores[7-y];				 
+				int rankScoresOpen[] = {0,10,0,0,0,0,0,0};
+				int rankScoresEnd[] = {0,10,11,12,20,40,70,0};
+				
+				int score = 0;
+				for (MaskIterator S = new MaskIterator( whitePawnCaps[index(x,y)] ); S.hasNext();) {
+					score += squareScore[maskToIndex(S.next())] / 3;
+					score += squareScore[index(x,y)] / 2;
+					if (x >= 6) score = rankScoresOpen[y];
+					if (x <= 1) score = rankScoresOpen[y];
+				}
+				
+				pieceSquareScoreOpening[Piece.PAWN.index][index(x,y)] = score;
+				pieceSquareScoreEndgame[Piece.PAWN.index][index(x,y)] = rankScoresEnd[y];			 
 			}
 		}		
 		
 	
-		/*
+		
 		for (Piece p : Piece.values()) {
 			System.out.println(p.name() + " square scores:\n");
-			System.out.println(renderArray(pieceSquareScore[p.index]));
-		}*/
+			System.out.println(renderArray(pieceSquareScoreOpening[p.index]));
+		}
 		
 		//add the pieces
 		loadFromFEN(fen);	
-		System.out.println("Board loaded. Hash = " + h.getKey());
+		b.updateZobrist();
+		//System.out.println("Board loaded. Hash = " + String.format("%x", b.zobrist));
 		settings = new SearchSettings();
 	}
 	
@@ -709,6 +952,14 @@ public class Board {
 		}
 		return r;
 	}
+	
+	/*
+	public int countRepetitions() {
+		long keyNow = this.getZobristKey();
+		for (MoveHistoryNode m : this.moveHistoryList) {
+			m.stateBefore.getZobrist();
+		}
+	}*/
 
 	public boolean isCheck(Color victim) {
 
@@ -753,15 +1004,14 @@ public class Board {
 	}
 	
 	
-	public void loadFromFEN(String v) {
+	private void loadFromFEN(String v) {
 		b = new GameState();
 		
 		int x = 0;
 		int y = 7;	
 		
 		int read = 0;
-		
-		
+	
 		while ( isWithinBoard(x,y) ) {
 			//read a square
 			
@@ -882,19 +1132,44 @@ public class Board {
 		return s;
 	}
 	
+	private long getPiecesPinnedToPieceAt(long pinnedTo) {
+		long pinnedPieces = 0L;
+		Color hero = this.getPieceAtMask(pinnedTo).c;
+		
+		final int pinnedToSquare = maskToIndex(pinnedTo);		
+
+		for (RayDirection d : RayDirection.values()) {
+			final long threatPieces = b.getBoardsForColor(hero.Enemy()).queens | (d.isDiagonal() ? 
+					b.getBoardsForColor(hero.Enemy()).bishops	
+					: 	b.getBoardsForColor(hero.Enemy()).rooks		);
+			//if no threats on the maximal ray then skip this direction
+			if ((rayAttacks[d.index][pinnedToSquare] & threatPieces) == 0) 
+				continue;
+			//calculate the true ray
+			final long ray = this.getRayAttacks(d, pinnedToSquare, b.white.all|b.black.all);
+			if ((ray & b.getBoardsForColor(hero).all) != 0) {
+				//our king sees one of our pieces along this ray
+				//now trace again from the king, through the piece
+				final long raySecond = this.getRayAttacks(d, pinnedToSquare, (b.white.all|b.black.all)& (~ray));
+				if ( (raySecond & threatPieces) != 0 ) { //there's thread there pinning our piece!
+					pinnedPieces |= ray & b.getBoardsForColor(hero).all;
+				}
+			}			
+		}
+		
+		return pinnedPieces;
+	}
+	
 	public LinkedList<Move> getLegalMoves() {
-		
-		GameState.PieceBoards heroBoards = b.getBoardsForColor(b.toPlay);
-		GameState.PieceBoards enemyBoards = b.getBoardsForColor(b.toPlay.Enemy());
-		
-		boolean isHeroInCheck = isCheck(b.toPlay);
-		
+		final boolean inCheckNow = isCheck(b.toPlay);
+	
+		final long pinnedPieces = this.getPiecesPinnedToPieceAt( b.getBoardsForColor(b.toPlay).kings );
 		LinkedList<Move> moves = new LinkedList<Move>();
 		
 		Piece promotionPieces[] = { Piece.QUEEN, Piece.KNIGHT, Piece.ROOK, Piece.BISHOP  };
 				
 		//pawn moves
-		for (MaskIterator pawn = new MaskIterator(heroBoards.pawns); pawn.hasNext();) {
+		for (MaskIterator pawn = new MaskIterator(b.getBoardsForColor(b.toPlay).pawns); pawn.hasNext();) {
 			long thisPawn = pawn.next();
 			int thisPawnIndex = maskToIndex(thisPawn);
 			
@@ -909,6 +1184,33 @@ public class Board {
 				heroPromotionSquares = blackPromotionSquares;
 			}	
 	
+			if (b.enPassantTarget != 0) {
+				if ((heroPawnCaps[thisPawnIndex] & b.enPassantTarget) != 0) //this pawn can move there
+				{
+					//what pawn is killed by this move?
+					//its the one that just moved through our pawns MOVE-TO square
+					Move m = attemptMakeMove(thisPawn, b.enPassantTarget);
+					//find that by looking at a single pawn push from our pawns MOVE-TO square
+					long[] enemyPawnSinglePushes = (b.toPlay == Color.WHITE) ? blackPawnSinglePushes : whitePawnSinglePushes;
+					m.enPassantCap = enemyPawnSinglePushes[maskToIndex(b.enPassantTarget)];
+					m.isCapture = true;
+					addMoveToListIfNotIntoCheck(moves, m, pinnedPieces, inCheckNow);					
+				}
+			}
+			
+			/*
+			System.err.println("BEFORE PAWNCLAL Toplay = " + b.toPlay + ",,");
+			System.err.println("b.getBoardsForColor(b.toPlay) is ");
+			System.err.println(this.renderBitBoard(b.getBoardsForColor(b.toPlay).knights));
+			System.err.println("get for toplay is ");
+			System.err.println(this.renderBitBoard(b.getBoardsForColor(b.toPlay).knights));
+		
+			System.err.println("blacks is ");
+			System.err.println(this.renderBitBoard(b.black.knights));
+			System.err.println("whites is ");
+			System.err.println(this.renderBitBoard(b.white.knights));
+			*/
+			
 			//Pushes and captures.
 			for (MaskIterator I = new MaskIterator( heroPawnSinglePushes[thisPawnIndex] | heroPawnDoublePushes[thisPawnIndex] | heroPawnCaps[thisPawnIndex] ); I.hasNext();) {
 				long target = I.next();
@@ -920,46 +1222,58 @@ public class Board {
 							//if double push must also have the single square empty
 							if ((target & heroPawnDoublePushes[thisPawnIndex]) != 0) {
 								if ((heroPawnSinglePushes[thisPawnIndex] & (b.white.all|b.black.all)) == 0) {									
-									attemptAddMoveToList(moves, m);
+									addMoveToListIfNotIntoCheck(moves, m, pinnedPieces, inCheckNow);
 								}							
 							}
 							else	//single push doesnt care about that
 							{
-								attemptAddMoveToList(moves, m);
+								addMoveToListIfNotIntoCheck(moves, m, pinnedPieces, inCheckNow);
 							}
 						} else { //promotion square so add possible promotions
 							for (Piece p : promotionPieces) {
 								Move a = attemptMakeMove(thisPawn, target);
 								a.isPromotion = true;
 								a.promotionPiece = p;
-								attemptAddMoveToList(moves, a);
+								addMoveToListIfNotIntoCheck(moves, a, pinnedPieces, inCheckNow);
 							}							
 						}
 					}
 				}
 			}
+			//En passant
 		}
+		/*
+		System.err.println("Toplay = " + b.toPlay + ",,");
+		System.err.println("b.getBoardsForColor(b.toPlay) is ");
+		
+		System.err.println(this.renderBitBoard(b.getBoardsForColor(b.toPlay).knights));
+		System.err.println("blacks is ");
+		System.err.println(this.renderBitBoard(b.black.knights));
+		System.err.println("whites is ");
+		System.err.println(this.renderBitBoard(b.white.knights));
+
+		System.err.println();*/
 		
 		//knight moves
-		for (MaskIterator knight = new MaskIterator(heroBoards.knights); knight.hasNext();) {
+		for (MaskIterator knight = new MaskIterator(b.getBoardsForColor(b.toPlay).knights); knight.hasNext();) {
 			long thisKnight = knight.next();			
 			long thisKnightMoves = knightAttacks[ maskToIndex(thisKnight) ];
 			for (MaskIterator I = new MaskIterator(thisKnightMoves); I.hasNext();) {
 				Move m = attemptMakeMove(thisKnight, I.next());
-				attemptAddMoveToList(moves, m);
+				addMoveToListIfNotIntoCheck(moves, m, pinnedPieces, inCheckNow);
 			}
 		}
 		//rook moves
-		for (MaskIterator rook = new MaskIterator(heroBoards.rooks); rook.hasNext();) {
+		for (MaskIterator rook = new MaskIterator(b.getBoardsForColor(b.toPlay).rooks); rook.hasNext();) {
 			long thisRook = rook.next();			
 			long thisRookMoves = getOrthogonalAttacks(maskToIndex(thisRook), b.white.all|b.black.all);
 			for (MaskIterator I = new MaskIterator(thisRookMoves); I.hasNext();) {
 				Move m = attemptMakeMove(thisRook, I.next());
-				attemptAddMoveToList(moves, m);
+				addMoveToListIfNotIntoCheck(moves, m, pinnedPieces, inCheckNow);
 			}			
 		}
 		//bishop moves
-		for (MaskIterator bishop = new MaskIterator(heroBoards.bishops); bishop.hasNext();) {
+		for (MaskIterator bishop = new MaskIterator(b.getBoardsForColor(b.toPlay).bishops); bishop.hasNext();) {
 			long thisBishop = bishop.next();
 			//System.out.println("bishop from" + Board.squareName(maskToIndex(thisBishop)));
 			//System.err.println(renderBitBoard(b.white.all|b.black.all));
@@ -967,11 +1281,11 @@ public class Board {
 		
 			for (MaskIterator I = new MaskIterator(thisBishopMoves); I.hasNext();) {
 				Move m = attemptMakeMove(thisBishop, I.next());
-				attemptAddMoveToList(moves, m);
+				addMoveToListIfNotIntoCheck(moves, m, pinnedPieces, inCheckNow);
 			}			
 		}		
 		//queen moves
-		for (MaskIterator queen = new MaskIterator(heroBoards.queens); queen.hasNext();) {
+		for (MaskIterator queen = new MaskIterator(b.getBoardsForColor(b.toPlay).queens); queen.hasNext();) {
 			long thisQueen = queen.next();	
 			int thisQueenIndex = maskToIndex(thisQueen);
 			
@@ -983,38 +1297,38 @@ public class Board {
 			
 			for (MaskIterator I = new MaskIterator(thisQueenMoves); I.hasNext();) {
 				Move m = attemptMakeMove(thisQueen, I.next());
-				attemptAddMoveToList(moves, m);
+				addMoveToListIfNotIntoCheck(moves, m, pinnedPieces, inCheckNow);
 			}			
 		}			
 				
 		//king moves
-		for (MaskIterator king = new MaskIterator(heroBoards.kings); king.hasNext();) {
+		for (MaskIterator king = new MaskIterator(b.getBoardsForColor(b.toPlay).kings); king.hasNext();) {
 			long thisKing = king.next();	
 			long thisKingMoves = kingAttacks[maskToIndex(thisKing)];
 
 			//castling moves
-			if (isHeroInCheck == false) {
+			if (inCheckNow == false) {
 				if ((thisKing & b.white.kings) != 0) { //is a white king
 					if (b.white.kcastle) { //is white allowed castle kingside?	
-						attemptAddMoveToList(moves, attemptConstructCastleMove(CastleMovePattern.WHITE_KING_SIDE));
+						addMoveToListIfNotIntoCheck(moves, attemptConstructCastleMove(CastleMovePattern.WHITE_KING_SIDE), pinnedPieces, inCheckNow);
 					}
 					if (b.white.qcastle) { 	
-						attemptAddMoveToList(moves, attemptConstructCastleMove(CastleMovePattern.WHITE_QUEEN_SIDE));
+						addMoveToListIfNotIntoCheck(moves, attemptConstructCastleMove(CastleMovePattern.WHITE_QUEEN_SIDE), pinnedPieces, inCheckNow);
 					}				
 				}
 				else if ((thisKing & b.black.kings) != 0) { //is a black king
 					if (b.black.kcastle) { 	
-						attemptAddMoveToList(moves, attemptConstructCastleMove(CastleMovePattern.BLACK_KING_SIDE));
+						addMoveToListIfNotIntoCheck(moves, attemptConstructCastleMove(CastleMovePattern.BLACK_KING_SIDE), pinnedPieces, inCheckNow);
 					}
 					if (b.black.qcastle) { 	
-						attemptAddMoveToList(moves, attemptConstructCastleMove(CastleMovePattern.BLACK_QUEEN_SIDE));
+						addMoveToListIfNotIntoCheck(moves, attemptConstructCastleMove(CastleMovePattern.BLACK_QUEEN_SIDE), pinnedPieces, inCheckNow);
 					}				
 				}
 			}
 			
 			for (MaskIterator I = new MaskIterator(thisKingMoves); I.hasNext();) {
 				Move m = attemptMakeMove(thisKing, I.next());
-				attemptAddMoveToList(moves, m);
+				addMoveToListIfNotIntoCheck(moves, m, pinnedPieces, inCheckNow);
 			}			
 		}	
 		
@@ -1078,14 +1392,23 @@ public class Board {
 		return b.toPlay;
 	}
 	
-	class SearchSettings {
+	final class SearchSettings {
 		boolean hashing = false;
 		int maxQuiescenceChecks = 0;
 		public int minHashDepth;
 		public boolean enableQuiescence = true;
+		public boolean killerMove = true;
+		
+		public boolean enableNullMoveAB = true;
+		
+		public int maxQuiescencePly = 6;
+		public int deltaPruneMargin =300;
+		
+		public String[] inspectLine;
+		public boolean inspectIntoQuiescence = false;
 	}
 	
-	class ScoredMove { 
+	final class ScoredMove { 
 		public Move move;
 		public int score;
 		public int depth;
@@ -1099,7 +1422,6 @@ public class Board {
 		final static public int GG = 10000;
 		
 		public ScoredMove(ScoredMove o) {
-			super();
 			this.move = o.move;
 			this.score = o.score;
 			this.depth = o.depth;
@@ -1108,7 +1430,7 @@ public class Board {
 			
 			this.line = new LinkedList<Move>();
 			for (Move m : o.line) {
-				this.line.add(m);
+				this.line.add(new Move(m));
 			}
 		}
 		
@@ -1117,90 +1439,190 @@ public class Board {
 	
 	public SearchSettings settings;
 	
-	class SearchStatistics {
+	final class SearchStatistics {
 		public int maxDepth;
 		public long elapsedTimeMS;
 		public int evaluated;		
 		
 		public int quiescenceNodes = 0;
 		public int alphaBetaNodes = 0;
+		public int nullMoveCutoffs = 0;
 		public int hashHits;
 		public int hashHints;
+	
+		
 	}
 	
 	public SearchStatistics stats;
 	
-	int evaluatePosition() {
-		stats.evaluated += 1;
+	class EvaluationResult {
+		int score;
+		EnumOutcome outcome;
+		public EvaluationResult(EnumOutcome _outcome, int _score) {
+			score = _score;
+			outcome = _outcome;			
+		}
+	}
+	
+	EvaluationResult evaluatePosition() {
 		LinkedList<Move> legalMoves = this.getLegalMoves();
+		return evaluatePosition(legalMoves);
+	}
+	
+	//can be fed the list of legal moves manually in case we already calculated it
+	EvaluationResult evaluatePosition(LinkedList<Move> legalMoves) {
+		if (stats != null) {
+			stats.evaluated += 1;
+		}
+		//test for checkmate and stalemate
 		if (legalMoves.size() == 0) {
 			if (isCheck(b.toPlay)) { 	//checkmate
 				if (b.toPlay == Color.BLACK) {
-					return ScoredMove.GG + (1000 - moveHistoryList.size());
+					return new EvaluationResult(EnumOutcome.WHITE_WIN_CHECKMATE, ScoredMove.GG + (1000 - moveHistoryList.size()));
 				}
 				else {
-					return -(ScoredMove.GG + (1000 - moveHistoryList.size()));
+					return new EvaluationResult(EnumOutcome.BLACK_WIN_CHECKMATE, -ScoredMove.GG - (1000 - moveHistoryList.size()));
 				}
 			} else {
-				return 0;				//stalemate
+				return new EvaluationResult(EnumOutcome.DRAW_STALEMATE, 0);				//stalemate
 			}
 		}
-		
+				
+		//test for draw by repetition
+		//we test for hashkeys that match the key 'right now' ie return true only when drawn on this very move
+		int repeats = 0;
+		for (MoveHistoryNode mh : this.moveHistoryList) {
+			if (mh.stateBefore.zobrist == b.zobrist) {
+				repeats += 1;
+			}
+		}
+		if (repeats >= 2) {
+			return new EvaluationResult(EnumOutcome.DRAW_REPETITION, 0);
+		}
+
 		//material considerations
 		int material = 0;
-		for (Piece p : Piece.values()) {
-			material += countBitsBinary(b.white.getBoardForPiece(p)) * p.naiveValue * 100;
-			material -= countBitsBinary(b.black.getBoardForPiece(p)) * p.naiveValue * 100;
-		}
-		
-		//evaulate value of piece on square
-		int pos = 0;
-		
-		//rooks on open files!
-		for (MaskIterator I = new MaskIterator(b.white.rooks); I.hasNext();) {
-			long thisRook = I.next();
-			int thisRookSquare = maskToIndex(thisRook);
-			long rays = getRayAttacks(RayDirection.N, thisRookSquare, b.white.pawns|b.white.kings) | getRayAttacks(RayDirection.S, thisRookSquare, b.white.pawns|b.white.kings);
-			int score = countBitsBinary(rays)*4;
-			pos += score;			
-		}		
-		for (MaskIterator I = new MaskIterator(b.black.rooks); I.hasNext();) {
-			long thisRook = I.next();
-			int thisRookSquare = maskToIndex(thisRook);
-			long rays = getRayAttacks(RayDirection.N, thisRookSquare, b.black.pawns|b.black.kings) | getRayAttacks(RayDirection.S, thisRookSquare, b.black.pawns|b.black.kings);
-			int score = countBitsBinary(rays)*4;
-			pos -= score;			
-		}		
+		int totalNonPawnValue = 0;
 		
 		for (Piece p : Piece.values()) {
-			if (p != Piece.PAWN) { 
-				for (MaskIterator I = new MaskIterator(b.white.getBoardForPiece(p)); I.hasNext();) {
-					long thisPiece = I.next();
-					pos += pieceSquareScore[p.index][maskToIndex(thisPiece)];
-				}
-		
-				for (MaskIterator I = new MaskIterator(b.black.getBoardForPiece(p)); I.hasNext();) {
-					long thisPiece = I.next();
-					pos -= pieceSquareScore[p.index][maskToIndex(thisPiece)];
-				}
-			} else {
-				for (MaskIterator I = new MaskIterator(b.white.getBoardForPiece(p)); I.hasNext();) {
-					long thisPiece = I.next();
-					pos += whitePawnSquareScore[maskToIndex(thisPiece)];
-				}
-		
-				for (MaskIterator I = new MaskIterator(b.black.getBoardForPiece(p)); I.hasNext();) {
-					long thisPiece = I.next();
-					pos += blackPawnSquareScore[maskToIndex(thisPiece)];
-				}
+			final int countWhitePiecesOfThisType =  countBitsBinary(b.white.getBoardForPiece(p));
+			final int countBlackPiecesOfThisType =  countBitsBinary(b.black.getBoardForPiece(p));
+			
+			material += countWhitePiecesOfThisType * p.naiveValue * 100;
+			material -= countBlackPiecesOfThisType * p.naiveValue * 100;
+			
+			if (p != Piece.PAWN) {
+				totalNonPawnValue += (countWhitePiecesOfThisType + countBlackPiecesOfThisType) * p.naiveValue * 100;
 			}
 		}
-		//for the pawns
 		
+		//How much in the endgame are we?
+		//At this material threshold we will be 100% endgame
+		final int thresholdArriveEndgame = (2*Piece.ROOK.naiveValue)*100;
+		//At this threshold we start considering endgame (linearly interpolate)
+		final int thresholdBeginToLeaveOpening = (2*Piece.ROOK.naiveValue + 4*Piece.BISHOP.naiveValue)*100;
+
+		//default to 100% opening  0% endgame
+		int openingPercent = 100;
+		int endgamePercent = 0;
 		
+		if (totalNonPawnValue <= thresholdArriveEndgame	)
+		{
+			openingPercent = 0;
+			endgamePercent = 100;					
+			//System.err.println("FullEND : Total nonpawn value=" +  totalNonPawnValue);
+			//System.err.println("[o,e] = [" + openingPercent + "," + endgamePercent + "]"+ " thresholds are " + thresholdBeginToLeaveOpening + "," + thresholdArriveEndgame);
+
+		} else if (totalNonPawnValue > thresholdBeginToLeaveOpening) {
+			openingPercent = 100;
+			endgamePercent = 0;			
+			//System.err.println("FULLOPEN: Total nonpawn value=" +  totalNonPawnValue + " thresholds are " + thresholdBeginToLeaveOpening + "," + thresholdArriveEndgame);
+			//System.err.println("[o,e] = [" + openingPercent + "," + endgamePercent + "]");			
+		}
+		else {			
+			openingPercent = Math.min(100, Math.max(0, (100*(totalNonPawnValue-thresholdArriveEndgame)) / (thresholdBeginToLeaveOpening-thresholdArriveEndgame)));
+			endgamePercent = 100 - openingPercent;		
+			
+			//System.err.println("MIX: Total nonpawn value=" +  totalNonPawnValue);
+			//System.err.println("[o,e] = [" + openingPercent + "," + endgamePercent + "]"+ " thresholds are " + thresholdBeginToLeaveOpening + "," + thresholdArriveEndgame);
+		}		
+		
+		//evaulate value of piece on square
+		int pos = 0;	
+		
+		//rooks files and ranks !
+		Color colors[] = {Color.WHITE, Color.BLACK};		
+		for (Color c : colors) {
+			GameState.PieceBoards heroBoards = b.getBoardsForColor(c);
+			long fileBlockers = heroBoards.kings | heroBoards.pawns;
+			long rankBlockers = heroBoards.kings | heroBoards.pawns | heroBoards.bishops | heroBoards.knights;
+					
+			for (MaskIterator I = new MaskIterator(heroBoards.rooks); I.hasNext();) {
+				long thisRook = I.next();
+				int thisRookSquare = maskToIndex(thisRook);				
+				long fileRays = (getRayAttacks(RayDirection.N, thisRookSquare, fileBlockers) | getRayAttacks(RayDirection.S, thisRookSquare, fileBlockers)) & (~fileBlockers);
+				
+				int score = 0;// countBitsBinary(fileRays)*2;
+	
+				//consider mobility on this rank. we'll go with not blocked by friendly rooks or queens for this purpose (to encourage connection)
+				long rankRays = (getRayAttacks(RayDirection.W, thisRookSquare, rankBlockers) | getRayAttacks(RayDirection.E, thisRookSquare, rankBlockers)) & (~rankBlockers);
+				for (int x = 0; x < 8; x++) {
+					if ((rankRays & fileFullMask[x]) != 0) {
+						score += rookFileScore[x];
+					}
+				}			
+				
+				pos += score * c.sign();		
+			}		
+		}
+				
+		//Piece values by scores
+		for (Piece p : Piece.values()) {
+			for (MaskIterator I = new MaskIterator(b.white.getBoardForPiece(p)); I.hasNext();) {
+				long thisPiece = I.next();
+				pos += (pieceSquareScoreOpening[p.index][maskToIndex(thisPiece)] * openingPercent) / 100;
+				pos += (pieceSquareScoreEndgame[p.index][maskToIndex(thisPiece)] * endgamePercent) / 100;
+			}
+	
+			for (MaskIterator I = new MaskIterator(b.black.getBoardForPiece(p)); I.hasNext();) {
+				long thisPiece = I.next();
+				pos -= (pieceSquareScoreOpening[p.index][flipIndex(maskToIndex(thisPiece))] * openingPercent) / 100;
+				pos -= (pieceSquareScoreEndgame[p.index][flipIndex(maskToIndex(thisPiece))] * endgamePercent) / 100;
+			}
+		}
+		
+		//DOUBLED PAWNS ARE BAD.
+		for (int x = 0; x < 8; x++) {
+			final int countWhiteExtraPawnsOnThisFile =	Math.max( countBitsBinary(b.white.pawns & fileFullMask[x])-1, 0);
+			final int countBlackExtraPawnsOnThisFile =  Math.max( countBitsBinary(b.black.pawns & fileFullMask[x])-1, 0);
+			final int doublePawnPenalty = -15;
+			pos += countWhiteExtraPawnsOnThisFile * doublePawnPenalty;
+			pos -= countBlackExtraPawnsOnThisFile * doublePawnPenalty;
+		}
+
+		if (b.white.kcastle || b.white.qcastle) {
+			pos += 20;			
+		}	
+		if (b.black.kcastle || b.black.qcastle) {
+			pos -= 20;
+		}
+		
+		//king safety : give points for pawns that shiled the king
+		final int blackKingSquare = maskToIndex(b.black.kings);
+		final int blackSafety = 	15*((b.black.pawns & (blackPawnSinglePushes[blackKingSquare] | blackPawnDoublePushes[blackKingSquare]))  != 0 ? 1 : 0)
+							+		5*((b.black.pawns & blackPawnDoublePushes[blackKingSquare]) != 0 ? 1 : 0)
+							+		6*(countBitsBinary(b.black.pawns & blackPawnCaps[blackKingSquare]));
+		final int whiteKingSquare = maskToIndex(b.white.kings);
+		final int whiteSafety = 	15*((b.white.pawns & (whitePawnSinglePushes[whiteKingSquare] | whitePawnDoublePushes[whiteKingSquare])) != 0 ? 1 : 0)
+							+		5*((b.white.pawns & whitePawnDoublePushes[whiteKingSquare]) != 0 ? 1 : 0)
+							+		6*(countBitsBinary(b.white.pawns & whitePawnCaps[whiteKingSquare]));
+	
+		pos += whiteSafety-15;
+		pos -= blackSafety-15;
 		//not over so make estimate
-		return material+pos;
+		return new EvaluationResult(EnumOutcome.STILL_PLAYING, material+pos);
 	}
+	
 	private final int INFINITY = 1000000;
 	public ScoredMove getBestMoveWithIterativeDeepening(int timeLimitMilliseconds, int maxDepth)  {		
 		stats = new SearchStatistics();
@@ -1210,27 +1632,38 @@ public class Board {
 		long elapsedTime = 0;
 
 		ScoredMove bm = null;
-		while (elapsedTime < timeLimitMilliseconds && depth < maxDepth) {
+		while ((elapsedTime < timeLimitMilliseconds) && (depth < maxDepth)) {
 			depth += 1;
-			bm = getBestMoveAlphaBeta(depth, -INFINITY, +INFINITY);
+			
+			bm = launchAlphaBetaSearch(depth);
 			elapsedTime = (new Date()).getTime() - startTime;			
 		}
 		
 		stats.maxDepth = depth;
 		stats.elapsedTimeMS = elapsedTime;	
+		//killerMoveSystem.dump();
 		
 		return bm;
 	}	
 	
+	private ScoredMove launchAlphaBetaSearch(int depth) {
+		killerMoveSystem = new KillerMovesTable(50);
+		if (settings.inspectLine == null) {
+			return getBestMoveAlphaBeta(0,depth, -INFINITY, +INFINITY, 1, false);
+		} else {
+			return getBestMoveAlphaBeta(0,depth, -INFINITY, +INFINITY, 1, true);
+		}
+	}
+	
 	
 	public ScoredMove getBestMoveAlphaBeta(int depth) {		
 		stats = new SearchStatistics();
-	
+			
 		long startTime = System.currentTimeMillis();
 		long elapsedTime = 0;
 
 		ScoredMove bm = null;
-		bm = getBestMoveAlphaBeta(depth, -INFINITY, +INFINITY);
+		bm = launchAlphaBetaSearch(depth);
 		if (bm.cutoff) {
 			System.err.println("Warning: max window returned cutoff! [score=" + bm.score + "]");
 		}
@@ -1244,15 +1677,23 @@ public class Board {
 	}
 	
 
-	class DirtyHeuristic implements Comparator<Move> {
+	final class DirtyHeuristic implements Comparator<Move> {
+		private int currentDepth;
+		
 		public DirtyHeuristic() {
+			currentDepth = -1;
 			hintMove = null;
 		}
-		public DirtyHeuristic(Move _hintMove) {
+		public DirtyHeuristic(int _currentDepth) {
+			currentDepth = _currentDepth;
+			hintMove = null;
+		}
+		public DirtyHeuristic(Move _hintMove, int _currentDepth) {
+			currentDepth = _currentDepth;
 			hintMove = _hintMove;
 		}
 		
-		Move hintMove;
+		private Move hintMove, killerMove;
 		private int score(Move r) {
 			int ret = 0;
 			if (hintMove != null) {
@@ -1260,15 +1701,25 @@ public class Board {
 					return 1000;
 				}
 			}
+			final int loudMin = 100;
+			if (r.isPromotion || r.isCapture) {
+				ret += loudMin;
+			}
 			if (r.isPromotion)
 			{
-				ret += r.promotionPiece.naiveValue;
+				ret += (r.promotionPiece.naiveValue-1)*10;
 			}
 			if (r.isCapture) {
-				ret += 10 + (getPieceAt(r.toMask).p.naiveValue*10 - getPieceAt(r.fromMask).p.naiveValue); 
+				ret += (getPieceAtMask(r.getCaptureMask()).p.naiveValue*10 - getPieceAtMask(r.fromMask).p.naiveValue); 
+			}
+			if (settings.killerMove && (currentDepth >= 0)) {
+				int killerRank = killerMoveSystem.getKillerMoveRank(currentDepth, r);
+				if (killerRank > 0) { //0 means wasnt killer.
+					ret += (loudMin/2)+ (killerMoveSystem.getmaxKillerMoveRank(currentDepth) - killerRank);
+				}
 			}
 			if (r.isCheck) {
-				ret += 2;
+				ret += 1;
 			}
 			return ret;				
 		}
@@ -1276,22 +1727,52 @@ public class Board {
 		public int compare(Move a, Move b) {
 			return score(b)-score(a);
 		}			
-	}	
+	}
 	
+	public enum NodeType {
+		EXACT,
+		LOWERBOUND,
+		UPPERBOUND;
+	}
 
-	class HashTable 
-	{
-		class HashEntry {
+	final class HashTable 
+	{		
+		final class HashEntry {
 			long hashCode;
 			ScoredMove bm;
 			int depth;
+			int vintage; //size of move history when this position was saved
+			NodeType type;			
 		}
 		
 		long zobristTableW[][];		
 		long zobristTableB[][];
 		HashEntry data[];
 		
+		long zobristWhiteToMove;
+		long zobristBlackToMove;
+		
+		long zobristWhiteKCastle;
+		long zobristWhiteQCastle;
+		long zobristBlackKCastle;
+		long zobristBlackQCastle;
+		
+		public long zobristDeltaForPieceAt(long atMask) {
+			int sq = maskToIndex(atMask);
+			ColoredPiece cp = getPieceAtMask(atMask);
+			if (cp.c == Color.BLACK) {
+				return zobristTableB[cp.p.index][sq];
+			} 
+			else if (cp.c == Color.WHITE) {
+				return zobristTableW[cp.p.index][sq];
+			}
+			else {
+				return 0L;
+			}
+		}
+		
 		HashTable() {
+			//TODO: deal with the random seed here
 			Random r = new Random(123456);
 			zobristTableW = new long[6][64];
 			zobristTableB = new long[6][64];
@@ -1302,10 +1783,21 @@ public class Board {
 				}
 			}
 			
+			zobristWhiteToMove = r.nextLong();
+			zobristBlackToMove = r.nextLong();
+			
+			zobristWhiteKCastle = r.nextLong();
+			zobristWhiteQCastle = r.nextLong();
+			
+			zobristBlackKCastle = r.nextLong();
+			zobristBlackQCastle = r.nextLong();								
+			
+			//For now just using this for zobrist keys for repetition detection etc. Not for hash table.
+			//So dont allocate t able.
 			data = new HashEntry[HASH_SIZE];
 		}			
 		
-		final int HASH_SIZE = 1000000;
+		final int HASH_SIZE = 500000;
 		
 		long getKey() {
 			long k = 0;
@@ -1323,6 +1815,25 @@ public class Board {
 					k ^= zobristTableB[p.index][square];
 				}				
 			}
+			if (b.toPlay == Color.WHITE) {
+				k ^= zobristWhiteToMove;
+			} else {
+				k ^= zobristBlackToMove;
+			}
+			
+			if (b.white.kcastle) {
+				k ^= zobristWhiteKCastle;
+			}
+			if (b.white.qcastle) {
+				k ^= zobristWhiteQCastle;
+			}
+			if (b.black.kcastle) {
+				k ^= zobristBlackKCastle;
+			}
+			if (b.black.qcastle) {
+				k ^= zobristBlackQCastle;
+			}
+			
 			return k;
 		}
 		
@@ -1332,7 +1843,7 @@ public class Board {
 		
 		HashEntry get(long k) {
 			HashEntry ret = data[index(k)];
-			if (ret != null) {
+			if (ret != null) {				
 				if (ret.hashCode == k) {
 					return ret;
 				}
@@ -1340,10 +1851,13 @@ public class Board {
 			return null;			
 		}
 		
-		void set(long k, ScoredMove bm, int d) {
+		void set(long k, ScoredMove bm, int d, NodeType type) {
+			data[index(k)] = null;
 			HashEntry he = new HashEntry();
+			he.type = type;
+			he.vintage = moveHistoryList.size();
 			he.hashCode = k;
-			he.bm = bm;
+			he.bm = new ScoredMove(bm);
 			he.depth = d;
 			data[index(k)] = he;
 		}
@@ -1351,50 +1865,58 @@ public class Board {
 	
 	private HashTable h;
 		
-	private ScoredMove getQuiescenceScore(int depth, int alpha, int beta, int checksRemaining) {
-		stats.quiescenceNodes += 1;
+	private ScoredMove getQuiescenceScore(int depth, int alpha, int beta, int checksRemaining, boolean inspect) {
+		inspect = inspect && settings.inspectIntoQuiescence;
+		if (depth != 0) {
+			stats.quiescenceNodes += 1;
+		}
 		
 		ScoredMove bm = new ScoredMove();	
 		bm.depth = depth;
 		//game over (checkmate or stalemate)
 		
-		int immediate = this.evaluatePosition();
 		
+		LinkedList<Move> legalMoves = this.getLegalMoves();
+		EvaluationResult immediate = this.evaluatePosition(legalMoves);
+
+		String indent = "";
+		for (int i = 0; i > depth-1; i--) {
+			indent += "\t";
+		}
+		
+
+		if (inspect) System.out.println(indent + "(Qui) Quiescence at [" + depth + "] [" + alpha + "," + beta + "] <imm=" + immediate.score + ">\n" + renderState(indent));
+		
+		/*//see if its a cutoff right away
 		if (b.toPlay == Color.WHITE) {
-			if (immediate >= beta) {
+			if (immediate.score >= beta) {
 				bm.score = beta;
 				bm.cutoff = true;
 				return bm;
 			}
 		}
 		else if (b.toPlay  == Color.BLACK) {
-			if (immediate <= alpha) {					
+			if (immediate.score <= alpha) {					
 				bm.score = alpha;
 				bm.cutoff = true;
 			}
-		}					
+		}	*/				
 		
-				
-		String indent = "";
-		for (int i = 0; i > depth-1; i--) {
-			indent += "\t";
-		}
-		//System.out.println(indent + "(Qui) Quiescence at [" + depth + "] [" + alpha + "," + beta + "] <imm=" + immediate + ">\n" + renderState(indent));
-		
-		LinkedList<Move> legalMoves = this.getLegalMoves();
-		if (legalMoves.size() == 0 || depth < -5) {
+						
+		//too deep so just return immediate value
+		if (( immediate.outcome.isGameOver() )||(depth < -settings.maxQuiescencePly)) {
 			bm.cutoff = false;
-			bm.score = immediate;
+			bm.score = immediate.score;
 			bm.move = null;
 			bm.line = new LinkedList<Move>();
-			//System.out.println(indent + "hit depth limit returning " + bm.score);
+			//System.out.println(indent + "(Qui) hit depth limit returning " + bm.score);
 			return bm;
 		}
 		
 		//filter legal moves to captures
 		LinkedList<Move> loudMoves = new LinkedList<Move>();
 		for (Move m : legalMoves) {
-			if (m.isCapture || (m.isCheck && (checksRemaining > 0))) {
+			if (m.isCapture || (m.isCheck && (checksRemaining > 0)) || (m.isPromotion) ) {
 				loudMoves.add(m);
 			}
 		}
@@ -1412,12 +1934,12 @@ public class Board {
 
 		for (Move m : loudMoves) {			
 			if (alpha > beta) {
-				System.err.println(indent + "!!!Bad window ["+alpha+","+beta+"]");
+				if (inspect) System.err.println(indent + "!!!Bad window ["+alpha+","+beta+"]");
 				bm.cutoff = true;
 				return bm;
 			}
 			
-			//System.out.println(indent + "(Qui) Trying " + m.toString());			
+			if (inspect) System.out.println(indent + "(Qui) Trying " + m.toString());			
 			
 			boolean prune = false;			
 
@@ -1426,29 +1948,29 @@ public class Board {
 				newChecksRemaining = checksRemaining-1;
 			}
 			
-			final int margin = 300;
-			if (m.isCapture) {
-				int nom = getPieceAt(m.toMask).p.naiveValue*100;
-				if (b.toPlay == Color.WHITE) { 
-					if (nom + margin + immediate < alpha) {
-						prune = true;
+			final int margin = settings.deltaPruneMargin;
+			if (m.isCheck == false) { //never prune checks
+				if (m.isCapture) {
+					int nom = getPieceAtMask(m.getCaptureMask()).p.naiveValue*100;
+					if (b.toPlay == Color.WHITE) { 
+						if (immediate.score + nom + margin < alpha) {
+							prune = true;
+						}
+					}
+					else if (b.toPlay == Color.BLACK) { 
+						if (immediate.score - (nom + margin) > beta) {
+							prune = true;
+						}
+					}
+					if(prune) {
+						if (inspect) System.out.println(indent + "Pruned couldnt reach: [" + alpha + "," + beta + "] (from imm=" + immediate.score+ ")");
+						continue;
 					}
 				}
-				else if (b.toPlay == Color.BLACK) { 
-					if (immediate - nom - margin > beta) {
-						prune = true;
-					}
-				}
-				if(prune) {
-					//System.out.println(indent + "(Qui) pruned this one. : " + alpha + "," + beta + " with imm=" + immediate + " nom = " + nom);
-					continue;
-				}
-								
 			}			
 			
-			pushMove(m);
-			
-			ScoredMove r = getQuiescenceScore(depth-1,alpha,beta,newChecksRemaining);
+			pushMove(m);			
+			ScoredMove r = getQuiescenceScore(depth-1,alpha,beta,newChecksRemaining,inspect);
 			popMove();
 			//System.out.println(indent + "(qui) score was " + r.score + "cutoff=" + r.cutoff);
 
@@ -1501,8 +2023,8 @@ public class Board {
 		//if we got here:
 		//try "stand pat"
 		if (b.toPlay == Color.WHITE) {
-			if (immediate >= alpha) {
-				bm.score = immediate;
+			if (immediate.score >= alpha) {
+				bm.score = immediate.score;
 				bm.line = new LinkedList<Move>();
 				bm.move = new Move(0,0);
 				bm.standPat = true;
@@ -1512,8 +2034,8 @@ public class Board {
 			}
 		}
 		else if (b.toPlay == Color.BLACK) {
-			if (immediate <= beta) {
-				bm.score = immediate;
+			if (immediate.score <= beta) {
+				bm.score = immediate.score;
 				bm.line = new LinkedList<Move>();
 				bm.move = new Move(0,0);
 				bm.standPat = true;
@@ -1526,32 +2048,140 @@ public class Board {
 		if (bm.move != null) {
 			bm.line.addFirst(bm.move);
 			bm.cutoff = false;
-			/*
-			if (settings.hashing && depth >= settings.minHashDepth) {
-				HashableBoard h = new HashableBoard(this);			
-				transpositionTable.put(h, new ScoredMove(bm));
-			}*/
 		}
 		else
 		{
 			bm.cutoff = true;
 		}
-		return bm;		
-				
+		return bm;
 	}
 	
-	private ScoredMove getBestMoveAlphaBeta(int depth, int alpha, int beta)  {			
+
+	final class KillerMovesTable {
+		public final int KILLERS_PER_PLY = 2;
+		int maxDepth;
+		private Move killerMove[][];
+		private int killerCount[][];
 		
+		public int getmaxKillerMoveRank(int depth) {
+			//returns the lowest rank that getKillerMOveRank could return 
+			//ie if we have 4 killer moves max, then this is 4.
+			return KILLERS_PER_PLY;
+		}
+		public int getKillerMoveRank(int depth, Move m) {
+			//returns 0 if its not a killer move
+			//otherwise 1 for the most popular
+			//2 for the second most popular
+			//etc.
+			int foundIndex = -1;
+			for (int i = 0; i < KILLERS_PER_PLY; i++) {
+				if (killerMove[depth][i] != null) {
+					if (m.compare( killerMove[depth][i] )) {
+						if (foundIndex == -1) {
+							foundIndex = i;
+						} else {
+							System.err.println("Warning: duplicate killer move");	
+						}
+					}
+				}
+			}
+			if (foundIndex < 0) {
+				return 0;
+			} 
+			else {
+				int rank = 1;
+				for (int i = 0; i < KILLERS_PER_PLY; i++) {
+					if (killerMove[depth][i] != null) {
+						if (killerCount[depth][i] > killerCount[depth][foundIndex]) {
+							rank++;
+						}
+					}
+				}
+				return rank;
+			}
+		}
+		public void considerKillerMove(Move m, int d) {
+			//if quiet then save.
+			if ((m.isCapture == false) && (m.isPromotion == false)) {
+				for (int i = 0; i < KILLERS_PER_PLY; i++) {
+					if (killerMove[d][i] != null) {
+						if (m.compare( killerMove[d][i] )) { //found it here
+							killerCount[d][i] += 1;
+							return;
+						}
+					}
+				}
+				int leastPopularIndex = 0;
+				//if we get here we didnt find it
+				//so use it to replace least popular one (or default to index 0)
+				for (int i = 0; i < KILLERS_PER_PLY; i++) {
+					if (killerCount[d][i] <= killerCount[d][leastPopularIndex]) {
+						leastPopularIndex = i;
+					}
+				}
+				killerMove[d][leastPopularIndex] = new Move(m);
+				killerCount[d][leastPopularIndex] = 1;
+			}
+		}
+		
+		public KillerMovesTable(int _maxDepth) {
+			maxDepth = _maxDepth;
+			this.killerCount = new int[maxDepth+1][KILLERS_PER_PLY];
+			this.killerMove = new Move[maxDepth+1][KILLERS_PER_PLY];
+		}		
+		
+		public void dump() {
+			for (int d = 0; d <= maxDepth; d++) {
+				System.out.println("Depth=" + d);
+				for (int i = 0; i < KILLERS_PER_PLY; i++) {
+					System.out.println(killerMove[d][i] + "\t" + killerCount[d][i]);
+				}
+			}
+		}
+	}	
+	
+	public boolean isNullMoveAppropriate() {
+		//No null move allowed if we are in check
+		if (isCheck(b.toPlay)) {
+			return false;
+		}
+		//No null move allowed when we have one or less minor piece remaining (eg king and pawns)
+		final long nonKingPawns = b.getBoardsForColor(b.toPlay).all ^ (b.getBoardsForColor(b.toPlay).pawns|b.getBoardsForColor(b.toPlay).kings); 
+		if (countBitsBinary(nonKingPawns) <= 1) {
+			return false;
+		}
+		//If we got here then go for it
+		return true;
+	}
+	
+	private KillerMovesTable killerMoveSystem;	
+	private ScoredMove getBestMoveAlphaBeta(int depthIn, int depthLeft, int alpha, int beta, int nullMoveBudget, boolean inspect)  {
+		boolean inspectHere = false;
+		if (inspect) {
+			if (depthIn == settings.inspectLine.length) {
+				inspectHere = true;
+			}
+		}
 		ScoredMove hashHintMove = null;
-		if (settings.hashing && (depth >= settings.minHashDepth)) {
-			HashTable.HashEntry lookupAttempt = h.get(h.getKey());
+		if (settings.hashing && (depthLeft >= settings.minHashDepth)) {
+			HashTable.HashEntry lookupAttempt = h.get(b.zobrist);
 			//System.out.println(lookupAttempt);
 			if (lookupAttempt != null) {
+				//adjust checkmate for vintage
+				int adj = 0; 
+				if (lookupAttempt.bm.score > ScoredMove.GG) {
+					adj = lookupAttempt.vintage - moveHistoryList.size(); 
+				} else if (lookupAttempt.bm.score < -ScoredMove.GG){
+					adj = -(lookupAttempt.vintage - moveHistoryList.size());
+				}
 				//System.out.println(lookupAttempt.depth + " vs cd=" + depth);
-				if (lookupAttempt.depth >= depth) {
-					if (lookupAttempt.bm.cutoff == false) {
+				if (lookupAttempt.depth >= depthLeft) {
+					if (lookupAttempt.type == NodeType.EXACT) {
 						//System.out.println("Hash hit " + lookupAttempt.bm.move.toString());
-						return new ScoredMove(lookupAttempt.bm);
+						stats.hashHits += 1;
+						ScoredMove ret = new ScoredMove(lookupAttempt.bm);
+						ret.score += adj;
+						return ret;
 					}
 				} else { //hash from a previous search and lower depth. use it as a hint
 					if (lookupAttempt.bm != null) {
@@ -1565,46 +2195,84 @@ public class Board {
 		
 		ScoredMove bm = new ScoredMove();		
 		//horizon
-		if (depth <= 0) {
+		if (depthLeft <= 0) {
 			if (settings.enableQuiescence) {
-				bm = this.getQuiescenceScore(depth, alpha, beta, settings.maxQuiescenceChecks);				
+				bm = this.getQuiescenceScore(0, alpha, beta, settings.maxQuiescenceChecks, inspect);				
 				
 				bm.move = null;
 				bm.line = new LinkedList<Move>();
-				saveHash(bm, depth);
 				return bm;
 			}
 			else {
-				bm.score = this.evaluatePosition();
+				bm.score = this.evaluatePosition().score;
 				bm.move = null;
 				bm.line = new LinkedList<Move>();
 				bm.cutoff = false;
-				saveHash(bm, depth);
+
 				return bm;					
 			}
 		}		
-			
-		//game over (checkmate or stalemate)
+
 		LinkedList<Move> legalMoves = this.getLegalMoves();
-		if (legalMoves.size() == 0) {
-			bm.score = this.evaluatePosition();
+		//game over (checkmate or stalemate)
+		EvaluationResult immediate = this.evaluatePosition(legalMoves);
+		if (immediate.outcome.isGameOver()) {
+			bm.cutoff = false;
+			bm.score = immediate.score;
 			bm.move = null;
 			bm.line = new LinkedList<Move>();
-			saveHash(bm, depth);
 			return bm;					
-		}				
+		}
+		
+		if (legalMoves.size() == 1 && depthIn < 20) //Single reply extension 
+			depthLeft += 1;
 		
 		String indent = "";
+		for (int i = 0; i < depthIn; i++) {
+			indent += "\t";
+		}
+				
 		//System.out.println(indent + "AB at [" + depth + "] [" + alpha + "," + beta + "]\n" + renderState(indent));
-	
-	
-		if (hashHintMove != null) {
-			Collections.sort(legalMoves, new DirtyHeuristic(hashHintMove.move));
+		
+		//Try the nullmove.
+		if (settings.enableNullMoveAB) {
+			if (isNullMoveAppropriate() && (nullMoveBudget>0)) {
+				if (inspect) System.out.println("EXAMINING NULLMOVE...");
+				
+				pushNullMove();
+				//search to 2 ply less
+					ScoredMove r = getBestMoveAlphaBeta(depthIn+1, depthLeft-3, alpha, beta, nullMoveBudget-1, inspect);
+				popMove();
+				/*if (r.cutoff == true) {
+					System.out.println(indent + "Null move gave cutoff on ");
+					System.out.println("[" + alpha + "," + beta + "] (score=" + r.score);
+					System.out.println(this.renderState(indent));
+				}*/
+				if (b.toPlay == Color.WHITE) {
+					if (r.score >= beta) {
+						bm.score = beta;
+						bm.cutoff = true;
+						stats.nullMoveCutoffs += 1;
+						return bm;
+					}
+				} else {
+					if (r.score <= alpha) {
+						bm.score = alpha;
+						bm.cutoff = true;
+						stats.nullMoveCutoffs += 1;
+						return bm;						
+					}
+				}
+				if (inspect) System.out.println("NO CUTOFF FROM NULL MOVE");
+			}			
 		}
-		else {
-			Collections.sort(legalMoves, new DirtyHeuristic());
+		
+		if (settings.killerMove) {
+			Collections.sort(legalMoves, new DirtyHeuristic(depthIn));
+		} else {
+			Collections.sort(legalMoves, new DirtyHeuristic(-1));
 		}
-
+	
 		bm.move = null;
 		if (b.toPlay == Color.BLACK) {
 			bm.score = beta;
@@ -1616,10 +2284,37 @@ public class Board {
 
 		for (Move m : legalMoves) {			
 			//System.out.println(indent + "Trying " + m.toString());
-			pushMove(m);						
-			ScoredMove r = getBestMoveAlphaBeta(depth-1,alpha,beta);
+			
+			boolean inspectFurther = false;
+			if (inspect) {
+				if (depthIn < settings.inspectLine.length) {
+					//System.err.println(m.toString() + "' vs '" + settings.inspectLine[depthIn]);
+					if (m.toString().compareTo(settings.inspectLine[depthIn]) == 0) {
+						inspectFurther = true;
+						//System.err.println("inspecting further");
+					}
+				}
+			}
+			
+			if (inspectHere) {
+				System.out.println( "INSPECTING: Considering '" + m.toString() + "' on ");
+				System.out.println( "window = [" + alpha + "," + beta + "]");
+				System.out.println( this.renderState("") );
+			}
+			
+			pushMove(m);			
+			ScoredMove r = getBestMoveAlphaBeta(depthIn+1,depthLeft-1,alpha,beta,nullMoveBudget,inspectFurther);
+			if (r.cutoff == false) {
+				saveHash(r, depthLeft-1, NodeType.EXACT);
+			}
 			popMove();
-			//System.out.println(indent + "score was " + r.score + "cutoff=" + r.cutoff);
+			
+			if (inspectHere) {
+				System.out.println(indent + "score was " + r.score + "cutoff=" + r.cutoff);
+				if (r.line != null) {
+					System.out.println(" via " + r.line.toString());
+				}
+			}
 
 			if (b.toPlay == Color.WHITE) {
 				if (r.score >= alpha) {
@@ -1628,6 +2323,7 @@ public class Board {
 				if (r.score >= beta) {
 					bm.score = beta;
 					bm.cutoff = true;
+					killerMoveSystem.considerKillerMove(m,depthIn);
 					return bm;
 				}	
 
@@ -1647,6 +2343,7 @@ public class Board {
 				if (r.score <= alpha) {					
 					bm.score = alpha;
 					bm.cutoff = true;
+					killerMoveSystem.considerKillerMove(m,depthIn);
 					return bm;
 				}
 				if (bm.move == null || r.score < bm.score) {
@@ -1666,7 +2363,7 @@ public class Board {
 		}
 		//String s = this.moveHistory.toString();
 		//System.out.println(String.format("%s , Chose %d with score %d", s, bm.move, bm.score ) );
-		bm.depth = depth;
+		bm.depth = depthLeft;
 		
 		if (bm.move != null) {
 			bm.line.addFirst(bm.move);
@@ -1681,16 +2378,39 @@ public class Board {
 		{
 			bm.cutoff = true;
 		}
-		if (bm.cutoff == false) {
-			saveHash(bm, depth);
-		}
 		return bm;
 	}
 
-	private void saveHash(ScoredMove bm, int depth) {
+	private void pushNullMove() {
+		MoveHistoryNode mh = new MoveHistoryNode();
+		mh.stateBefore = new GameState(b);
+		mh.m = new Move(0,0);
+		mh.m.nullMove = true;
+		moveHistoryList.addFirst(mh);
+		
+		// en passant can only be done immediately after the double move. so we set to 0 here to disable it 
+		this.b.enPassantTarget = 0;
+		
+		b.toPlay = b.toPlay.Enemy();
+		b.zobrist |= h.zobristWhiteToMove | h.zobristBlackToMove;		
+	}
+
+	private void saveHash(ScoredMove bm, int depth, NodeType type) {
 		if (settings.hashing) {
-			h.set(h.getKey(), bm, depth);
+			h.set(b.zobrist, bm, depth, type);
 		}		
+	}
+	
+	public boolean makeMoveByString(String s) {
+		LinkedList<Move> legal = this.getLegalMoves();
+		for (Move m : legal) {
+			//System.err.println("'" + m.toString() + "' vs '" + s + "'" + "[" + m.toString().compareTo(s) + "]");
+			if (m.toString().compareTo(s) == 0) {
+				this.pushMove(m);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public LinkedList<Move> getMoveHistory() {
@@ -1700,4 +2420,12 @@ public class Board {
 		}
 		return r;
 	}	
+	
+	public long getRecalculatedZobristKey() {
+		return h.getKey();
+	}
+	
+	public long getIncrementalZobristKey() {
+		return b.getZobrist();
+	}
 }
